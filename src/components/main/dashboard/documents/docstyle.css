@@ -1,0 +1,24 @@
+.admission-letter {
+    position: relative;
+    background-image: url('../../../../assets/logo2.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.admission-letter::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.911); /* Adjust transparency */
+    backdrop-filter: blur(5px); /* Adjust blur effect */
+    z-index: 1;
+}
+
+.admission-letter > * {
+    position: relative;
+    z-index: 2; /* Ensures text stays above the blur */
+}

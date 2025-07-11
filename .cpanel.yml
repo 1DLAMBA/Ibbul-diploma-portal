@@ -1,0 +1,10 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/coestudy/public_html/coe 
+    - /bin/cp -R ./* $DEPLOYPATH
+    - cd $DEPLOYPATH
+    - npm install
+    - npm run build
+    - /bin/cp -R build/* $DEPLOYPATH
+    - /bin/rm -rf node_modules

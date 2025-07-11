@@ -1,0 +1,74 @@
+/* EditBioData.css */
+
+.bio-data-container {
+    padding: 24px;
+    /* background-color: #f4f4f4; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .responsive-tables-container {
+  width: 100%;
+  overflow-x: auto;
+  padding: 0 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .course-table .ant-table-title {
+    font-size: 16px;
+    padding: 8px;
+  }
+  
+  .course-table th, 
+  .course-table td {
+    padding: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}
+  
+  .bio-data-card {
+    width: 100%;
+    max-width: 1250px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    padding: 0 !important;
+  }
+.form-title {
+  text-align: center;
+  color: #028f64;
+  margin-bottom: 24px;
+}
+
+.section-title {
+  color: #028f64;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.submit-btn {
+  background-color: #028f64;
+  border-color: #028f64;
+  width: 200px;
+}
+
+.submit-btn:hover {
+  background-color: #026b50;
+  border-color: #026b50;
+}
+@media screen and (max-width: 576px) {
+  .mobile-descriptions .ant-descriptions-item-label,
+  .mobile-descriptions .ant-descriptions-item-content {
+    font-size: 12px;
+    padding: 8px;
+  }
+  
+  .mobile-descriptions .ant-descriptions-title {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+}
+

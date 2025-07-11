@@ -1,0 +1,125 @@
+.exam-card-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.print-button-container {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.print-button {
+  background-color: #028f64 !important;
+  border-color: #028f64 !important;
+}
+
+.print-button:hover {
+  background-color: #027a57 !important;
+  border-color: #027a57 !important;
+}
+
+.exam-card {
+  padding: 30px;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.exam-card-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.school-logo {
+  max-width: 100px;
+  margin-bottom: 15px;
+}
+
+.school-name {
+  margin-bottom: 10px !important;
+  color: #028f64;
+}
+
+.student-info {
+  margin: 20px 0;
+}
+
+.profile-pic {
+  border: 2px solid #028f64;
+  padding: 3px;
+  background-color: white;
+}
+
+.courses-section {
+  margin: 30px 0;
+}
+
+.exam-card-footer {
+  margin-top: 50px;
+}
+
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+
+.signature-box {
+  text-align: center;
+  width: 45%;
+}
+
+.signature-line {
+  border-top: 1px solid #000;
+  margin-top: 50px;
+}
+
+/* Print styles */
+@media print {
+  /* Hide everything except the exam card */
+  body * {
+    visibility: hidden;
+  }
+
+  .exam-card,
+  .exam-card * {
+    visibility: visible;
+  }
+
+  .exam-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    margin: 0;
+    border: none;
+  }
+
+  .print-button-container {
+    display: none;
+  }
+
+  /* Ensure the content fits on one page */
+  .exam-card {
+    page-break-inside: avoid;
+  }
+
+  /* Ensure background colors and images are printed */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Adjust image sizes for print */
+  .school-logo {
+    max-width: 80px;
+  }
+
+  .profile-pic {
+    width: 100px !important;
+    height: 100px !important;
+  }
+} 

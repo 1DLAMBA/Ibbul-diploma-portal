@@ -1,0 +1,170 @@
+/* Container styling */
+/* App.css */
+/* @import '~bootstrap/dist/css/bootstrap.min.css'; */
+@media (min-width:500px) {
+  /* PC VIEW */
+    .head img{
+        width:5%;
+        color: #eef5f0;
+    }
+
+    .head{
+        padding-top: 1%;
+        /* padding-bottom: 10px; */
+        padding-left: 3%;
+        padding-right: 1%;
+        margin-top: 0;
+        display: flex;
+        justify-content: space-between;
+    
+      }
+      .user-card {
+        background-color: #eef5f0;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: -4%;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        z-index: 1;
+        /* width: 100%; */
+      }
+      .dashboard-container {
+        width: 100%;
+        /* max-width: 600px; */
+        margin: auto;
+        height: 20vh;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #028f64;
+        background-color: rgba(0, 0, 0, 0.507);
+        backdrop-filter: blur(3px);
+      }
+    
+}
+@media (max-width:500px) {
+    .head img{
+        width: 15%;
+        
+    }
+
+    .head{
+        padding-top: 2%;
+        padding-left: 2%;
+        padding-right: 2%;
+        display: flex;
+        justify-content: space-between;
+    
+      }
+      .user-card {
+        background-color: #eef5f0;
+        border-radius: 10px;
+        padding: 20px;
+        margin-top: -30%;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        width: 80%;
+        z-index: 1;
+        /* width: 100%; */
+      }
+      .dashboard-container {
+        width: 100%;
+        /* max-width: 600px; */
+        margin: auto;
+        height: 25vh;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #028f64;
+        background-color: rgba(0, 0, 0, 0.507);
+        backdrop-filter: blur(3px);
+      }
+    
+}
+
+ 
+  
+  /* Cover photo styling */
+  .cover-photo  {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    /* margin-top: 20%; */
+  }
+  
+  /* User information card styling */
+  
+
+  .school-name{
+    color: azure;
+    font-family: 'Gabarito', sans-serif;
+  }
+  
+  .info-hold{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .info-hold:first-child{
+    margin-right: 10px;
+  }
+  /* Profile picture styling */
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    /* margin-top: -50px; */
+    border: 3px solid #eef5f0;
+    object-fit: cover;
+  }
+  
+  /* User name and info styling */
+  .user-name {
+    margin: 10px 0 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #028f64;
+  }
+  
+  .user-info {
+    font-size: 1em;
+    color: #555;
+  }
+  
+  /* Button styling */
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+  }
+  
+  .dashboard-button {
+    background-color: #028f64;
+    color: #eef5f0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+  }
+  
+  .dashboard-button:hover {
+    background-color: #02674a;
+  }
+  .content {
+    background-color: #eef5f0;
+    width: 100%;
+display: flex;
+flex-direction: column;
+margin-top: 0%;
+    height: 80vh;
+  }
+  .outlet{
+    background-color: #eef5f0;
+    margin-top: 2%;
+    height: max-content;
+  }

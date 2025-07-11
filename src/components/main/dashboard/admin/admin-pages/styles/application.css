@@ -1,0 +1,275 @@
+.application_table{
+    width: 100%;
+    justify-content: space-around;
+    margin: auto;
+    display: flex;
+}
+
+.table-head{
+    background-color: #5f885f;
+    color: white;
+    padding: 1%;
+    border-radius: 10px 10px 0px 0px;
+}
+
+/* Export Modal Styles */
+.export-modal .ant-modal-content {
+    border-radius: 12px;
+    overflow: hidden;
+    
+}
+
+.export-modal .ant-modal-header {
+    background: #028f64;
+    margin-bottom: 0;
+    padding: 16px 24px;
+}
+
+.export-modal .ant-modal-title {
+    color: white;
+    font-size: 18px;
+}
+
+.export-modal .ant-modal-body {
+    padding: 24px;
+}
+
+.export-modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-top: 0px !important;
+    
+}
+
+.export-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.export-modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.export-modal-content::-webkit-scrollbar-thumb {
+    background: #028f64;
+    border-radius: 3px;
+}
+
+.export-group {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #e9ecef;
+}
+
+.export-group-title {
+    color: #028f64;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.export-button {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+    background: white;
+    border: 1px solid #e9ecef;
+}
+
+.export-button:hover {
+    background: #f0f7f4;
+    border-color: #028f64;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(2, 143, 100, 0.1);
+}
+
+.export-button .anticon {
+    color: #028f64;
+    font-size: 16px;
+    margin-right: 12px;
+}
+
+.export-button span {
+    color: #495057;
+    font-weight: 500;
+}
+
+.export-button .count {
+    margin-left: auto;
+    background: #e9ecef;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    color: #495057;
+}
+
+.export-section {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.export-trigger-button {
+    background: #028f64;
+    border: none;
+    height: 44px;
+    padding: 0 24px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.export-trigger-button:hover {
+    background: #027a57;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(2, 143, 100, 0.2);
+}
+
+.export-trigger-button .anticon {
+    font-size: 18px;
+}
+
+/* Table Header Section Styles */
+.table-header-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.table-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.table-header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.search-input {
+    min-width: 300px;
+    border-radius: 6px;
+}
+
+.search-input .ant-input {
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+}
+
+.search-input .ant-input:hover,
+.search-input .ant-input:focus {
+    border-color: #028f64;
+    box-shadow: 0 0 0 2px rgba(2, 143, 100, 0.1);
+}
+
+.filter-select {
+    min-width: 200px;
+}
+
+.filter-select .ant-select-selector {
+    border-radius: 6px !important;
+    border: 1px solid #e9ecef !important;
+    padding: 4px 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.filter-select .ant-select-selector:hover,
+.filter-select.ant-select-focused .ant-select-selector {
+    border-color: #028f64 !important;
+    box-shadow: 0 0 0 2px rgba(2, 143, 100, 0.1) !important;
+}
+
+/* Responsive adjustments for table header */
+@media (max-width: 992px) {
+    .table-header-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-header-left {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-input,
+    .filter-select {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .table-header-right {
+        width: 100%;
+    }
+
+    .export-trigger-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .export-modal .ant-modal-content {
+        margin: 16px;
+    }
+    
+    .export-button {
+        height: 40px;
+    }
+    
+    .export-group {
+        padding: 12px;
+    }
+}
+
+.export-center-filter {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.export-center-select {
+    width: 100%;
+}
+
+.export-center-select .ant-select-selector {
+    border-radius: 6px !important;
+    border: 1px solid #e9ecef !important;
+    padding: 8px 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.export-center-select .ant-select-selector:hover,
+.export-center-select.ant-select-focused .ant-select-selector {
+    border-color: #028f64 !important;
+    box-shadow: 0 0 0 2px rgba(2, 143, 100, 0.1) !important;
+}

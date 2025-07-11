@@ -1,0 +1,496 @@
+@media only screen and (max-width: 600px) {
+  .card {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    
+    flex-direction: column;
+  }
+
+  .alert{
+    width: 90% !important;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .card {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1%;
+    margin-bottom: 5%;  
+      border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 40vw;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.alert{
+  position:absolute;
+   top:1%;
+    width:40%;
+    
+    margin:auto
+}
+
+.btn-green{
+  /* background-color: green !important; */
+  color: white !important;
+  border:0.5px solid white !important;
+}
+.btn-green:hover{
+  background-color: white !important;
+  border:0.5px solid green !important;
+  color: green !important;
+}
+
+/* Base styles */
+html, body {
+  font-family: Arial, sans-serif;
+  background-image: url('../../assets/backgrround.jpg');
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  background-repeat: no-repeat;
+  min-height: 100%;
+}
+
+/* Application Check Page Specific Styles */
+.application-check-container {
+  height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(210, 245, 211, 0.36);
+  padding: 12px;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+/* Regular Container for other pages */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(10px);
+  background-color: rgba(210, 245, 211, 0.36);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.header{
+    display: flex;
+    margin:auto;
+    /* justify-content: space-evenly; */
+    background-color: white;
+    width: 100%;
+    padding: 1% 0%;
+}
+
+.card img{
+    margin: auto;
+}
+
+.bg-light-green {
+    background-color: #f6ffed;
+}
+
+.text-green {
+    color: #028f64;
+}
+
+.btn-green {
+    background-color: #028f64;
+    color: #eef5f0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+}
+
+.btn-green:hover {
+    background-color: #2f6d32;
+}
+
+.invalid-feedback {
+    color: #ff0000;
+    font-size: 14px;
+}
+
+.valid-feedback {
+    color: #008000;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 80%;
+    height: 40px;
+    border-radius: 10px;
+    padding: 7px;
+    margin: 4%;
+    font-size: 16px;
+    border: 1px solid #ccc;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.m-auto{
+    margin:auto;
+}
+.d-flex{
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-red-outline{
+    background-color: #8f0202c4;
+    color: #eef5f0;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+}
+.form-container {
+    /* max-width: 800px; */
+    width: 80%;
+    margin: 20px auto;
+    background: #f9f9f9;
+    /* padding: 20px; */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #026d50;
+    padding: 2%;
+    color: white;
+}
+.form-logo {
+    width: 100px;
+}
+.form-title {
+    color: #028f64;
+}
+.submit-button {
+    background-color: #028f64;
+    border: none;
+}
+.submit-button:hover {
+    background-color: #026d50;
+}
+
+/* SECOND REGISTRATION STYLING################################# */
+
+.choice{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.choice-sub{
+    display: flex;
+}
+
+.choice label{
+    margin: 5%;
+}
+.choice select{
+    padding: 2%;
+    border-radius: 7px;
+    margin: 1%;
+    border: 0.5px solid grey;
+}
+
+/* PENDING VIW
+ */
+.pending-view {
+    padding: 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.pending-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.icon-style {
+    font-size: 48px;
+    color: #028f64;
+}
+
+.title-text {
+    color: #028f64;
+    margin-bottom: 16px;
+}
+
+.subtitle-text {
+    color: #666;
+    font-size: 16px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.additional-info {
+    margin-top: 2px;
+    font-size: 14px;
+    color: #595959;
+}
+
+.additional-info ul {
+    padding-left: 20px;
+}
+
+.additional-info li {
+    margin-bottom: 10px;
+}
+
+/* Application Card */
+.application-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    background-color: #028f64;
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #e8e8e8;
+    flex-shrink: 0;
+}
+
+.card-header .logo {
+    margin-bottom: 0;
+    width: 60px;
+}
+
+.card-header .text-green {
+    color: white !important;
+}
+
+.card-content {
+    padding: 12px;
+    background-color: white;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.card-footer {
+    background-color: #f6ffed;
+    padding: 12px;
+    border-top: 1px solid #e8e8e8;
+    flex-shrink: 0;
+}
+
+/* Form Styles */
+.application-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 4px;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    height: 36px;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+}
+
+.form-control:focus {
+    border-color: #028f64;
+    box-shadow: 0 0 0 2px rgba(2, 143, 100, 0.2);
+    outline: none;
+}
+
+.info-alert {
+    margin: 8px 0;
+    width: 100%;
+}
+
+/* Acceptance View */
+.acceptance-card {
+    background-color: #f6ffed;
+    border: 1px solid #b7eb8f;
+    margin-bottom: 12px;
+}
+
+.acceptance-card .ant-card-body {
+    padding: 12px;
+}
+
+.back-button {
+    background-color: #fff;
+    border-color: #028f64;
+    color: #028f64;
+}
+
+.back-button:hover {
+    background-color: #f6ffed;
+    border-color: #028f64;
+    color: #028f64;
+}
+
+/* Verification View */
+.verification-content {
+    padding: 12px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.verification-info {
+    text-align: center;
+    margin-top: 12px;
+    display: block;
+}
+
+/* Buttons */
+.btn-green {
+    background-color: #028f64 !important;
+    border-color: #028f64 !important;
+    color: white !important;
+    height: 36px;
+    padding: 0 16px;
+}
+
+.btn-green:hover {
+    background-color: #026d50 !important;
+    border-color: #026d50 !important;
+    color: white !important;
+}
+
+.register-button {
+    background-color: #028f64;
+    border-color: #028f64;
+    color: white;
+    height: 36px;
+}
+
+.register-button:hover {
+    background-color: #026d50 !important;
+    border-color: #026d50 !important;
+    color: white !important;
+}
+
+.admin-button {
+    background-color: #fff;
+    border-color: #028f64;
+    color: #028f64;
+    height: 36px;
+}
+
+.admin-button:hover {
+    background-color: #f6ffed;
+    border-color: #028f64;
+    color: #028f64;
+}
+
+/* Responsive Styles */
+@media only screen and (max-width: 768px) {
+    .application-check-container {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+    .application-card {
+        border-radius: 12px;
+        max-height: 90vh;
+    }
+
+    .card-header {
+        padding: 8px;
+    }
+
+    .card-content {
+        padding: 8px;
+    }
+
+    .card-footer {
+        padding: 8px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .application-check-container {
+        padding: 6px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .card-header .logo {
+        width: 50px;
+    }
+
+    .title-text {
+        font-size: 16px;
+    }
+
+    .subtitle-text {
+        font-size: 14px;
+    }
+}
