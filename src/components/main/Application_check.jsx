@@ -187,7 +187,7 @@ const ApplicationCheck = () => {
         }}>
           <img src={logo} alt="Logo" style={{ width: '40px', marginBottom: '8px' }} />
           <Title level={3} style={{ color: 'white', margin: 0, fontSize: '20px' }}>
-            IBBU Consult and Services
+            IBBU Diploma Programme
           </Title>
           <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px' }}>
             Student Application Portal
