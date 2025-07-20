@@ -3,7 +3,7 @@ import { useNavigate, Link, useParams } from 'react-router-dom';
 import {
   message,
   Button, Input, Spin, Table, Typography, ConfigProvider, Popover, Dropdown, Space, Breadcrumb, Select, Form,
-  Flex, Divider, Row, Col
+  Flex, Divider, Row, Col, Modal
 
 } from 'antd';
 import './BioData.css';
@@ -46,12 +46,12 @@ const Course_reg = () => {
   // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [applicationNumber, setApplicationNumber] = useState('');
   const amount = 4000000;
-  const amount60 = 2400000;
-  const amount40 = 1600000;
   const [availableCourses, setAvailableCourses] = useState([]);
   const userId = localStorage.getItem('id')
   const { id } = useParams();
   const [centerAccount, setCenterAccount] = useState('');
+  const [customAmount, setCustomAmount] = useState('');
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const itemLink = [
     {
@@ -82,6 +82,13 @@ const Course_reg = () => {
 
   ];
 
+  const config = {
+    reference: (new Date()).getTime().toString(),
+    email: "user@example.com", // Replace with user's email
+    amount: customAmount * 100, // Paystack uses amount in kobo (multiply by 100)
+    publicKey: 'your_paystack_public_key',
+  };
+
   function itemRender(currentRoute, params, items, paths) {
     const isLast = currentRoute?.path === items[items.length - 1]?.path;
 
@@ -93,25 +100,25 @@ const Course_reg = () => {
   }
   const componentProps = {
     email,
-    amount,
+    amount: customAmount * 100, // Paystack uses amount in kobo (multiply by 100)
     metadata: {
       id: id,
       pay_type: "complete_school_fees",
       // regNumber
     },
     publicKey,
-    split: {
-      type: "flat",
-      subaccounts: [
-        //Bantigi Oasis
-        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 68500 },
-        // COE ACCOUNT
-        { subaccount: "ACCT_aan2ehxiej239du", share: 2082500 },
-        //CENTER ACCOUNT 
-        { subaccount: centerAccount, share: 1730000 },
-      ]
-    },
-    text: "Pay Complete Fees Now",
+    // split: {
+    //   type: "flat",
+    //   subaccounts: [
+    //     //Bantigi Oasis
+    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 68500 },
+    //     // COE ACCOUNT
+    //     { subaccount: "ACCT_aan2ehxiej239du", share: 2082500 },
+    //     //CENTER ACCOUNT 
+    //     { subaccount: centerAccount, share: 1730000 },
+    //   ]
+    // },
+    text: "Pay Now",
     onSuccess: async (reference) => {
       const paidOn = new Date();
       const formData = {
@@ -147,9 +154,41 @@ const Course_reg = () => {
     onClose: () => alert("Wait! Don't leave :("),
   };
 
+  const showModal = () => {
+
+    if(customAmount < 5000) {
+      message.error('Minimum amount is ₦5,000');
+      return;
+    } else if(customAmount > 27500) {
+      message.error('Maximum amount is 27,500');
+      return;
+
+    }
+    else{
+      
+      form
+        .validateFields()
+        .then(() => {
+          setIsModalVisible(true);
+        })
+        .catch(err => {
+          console.log('Validation failed:', err);
+        });
+    }
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
+
   const component60Props = {
     email,
-    amount: 2400000,
+    amount: 2750000,
     metadata: {
       id: id,
       pay_type: "partial_school_fees",
@@ -160,14 +199,12 @@ const Course_reg = () => {
       type: "flat",
       subaccounts: [
         // Daniel ALAMBA
-        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 61500 },
-        // COE ACCOUNT
-        { subaccount: "ACCT_aan2ehxiej239du", share: 1201000 },
+        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 70000 },
         //CENTER ACCOUNT 
         { subaccount: centerAccount, share: 1026000 },
       ]
     },
-    text: "Pay 60% Now",
+    text: "Pay Complete Fees",
     onSuccess: async (reference) => {
       const paidOn = new Date();
       const formData = {
@@ -553,10 +590,35 @@ const Course_reg = () => {
     //   ),
     // },
   ];
+  const onFinish = async (values) => {
+    console.log('values', values)
+    setCustomAmount(values.amount)
+    
+  }
 
   return (
 
     <>
+     <Modal
+        title="Confirm Payment"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <PaystackButton 
+           
+            style={{ width: '100%', margin: '1%' }} className='btn btn-green'
+            onClick={handleOk}
+            {...componentProps}
+          />
+       
+        ]}
+      >
+        <p>Are you sure you want to pay ₦{customAmount}?</p>
+      </Modal>
       <Breadcrumb style={{ marginLeft: '8.7%', marginTop: '1%', backgroundColor: 'white', width: '82.5%', color: 'white', borderRadius: '15px', padding: '0.5%' }} itemRender={itemRender} items={items} />
       <Spin spinning={spinning} fullscreen />
       <div style={{ padding: '0 ', backgroundColor: '#fff', minHeight: '100vh', width: '83%', margin: '1% auto', display: 'flex', flexDirection: 'column' }}>
@@ -580,22 +642,44 @@ const Course_reg = () => {
                   padding: '16px',
                 }}
               >
-                <Space direction="vertical" size="small">
+                <Space direction="vertical" size="large">
 
-                  <Space>
+                  <Space direction="vertical" size="large">
 
+                  <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
 
                     <BookOutlined style={{ fontSize: '24px', color: '#000' }} />
                     <Title level={4} style={{ margin: 0, color: '#000' }}>
                       Registration Fees payment
-                    </Title>
+                      </Title>
+                  </div>
+                    
+                    <Form
+                      layout="vertical"
+                      onFinish={onFinish}
+                      className=""
+                    >
+                     
+                    <Form.Item
+                      label="Amount"
+                      name="amount"
+                      rules={[{ required: true, message: 'Please enter the desired amount' }]}
+                    >
+                      <Input placeholder="Enter your desired amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} />
+                    </Form.Item>
+                    <Button style={{ textAlign: 'start' }} block className='btn btn-green' disabled={!customAmount} variant="outlined" onClick={showModal}                    >
+                      Pay Now
+                    </Button>
+
+
+
+                    </Form>
                   </Space>
                   <Popover content={content} trigger="click">
 
 
-                    <Button style={{ textAlign: 'start' }} block className='btn btn-green' variant="outlined">
-                      Select Payment option
-                    </Button>
+                    <PaystackButton style={{ textAlign: 'start', width:'100%' }} block className='btn btn-green' {...component60Props} variant="outlined"/>
+                   
                   </Popover>
                 </Space>
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './style.css';
-import logo from '../../assets/logo2.png';
+import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { PaystackButton } from "react-paystack";
 import axios from 'axios';
-import { message, Result, Button, Layout, ConfigProvider, Card, Alert, Modal, Input, Typography, Space, Divider } from "antd";
-import { WarningFilled, UserOutlined, CreditCardFilled, ArrowLeftOutlined } from "@ant-design/icons";
+import { message, Result, Button, Layout, ConfigProvider, Card, Alert, Modal, Input, Typography, Space, Divider, Row, Col } from "antd";
+import { WarningFilled, UserOutlined, CreditCardFilled, ArrowLeftOutlined, SearchOutlined, CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import API_ENDPOINTS from '../../Endpoints/environment';
 import PaystackVerification from './dashboard/Verify_payment';
 
@@ -15,15 +15,15 @@ const { Title, Text } = Typography;
 const ApplicationCheck = () => {
   const [applicationNumber, setApplicationNumber] = useState('');
   const navigate = useNavigate();
-  // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
-  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
+  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const amount = 300000;
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [passkey, setPasskey] = useState("");
-  const [view, setView] = useState('form'); // 'form', 'acceptance', 'dashboard', 'notFound'
+  const [view, setView] = useState('form');
+  
   const componentProps = {
     email,
     amount,
@@ -32,17 +32,13 @@ const ApplicationCheck = () => {
       id: applicationNumber.id,
       pay_type: "acceptance_fees",
     },
-    split: {
-      type: "flat",
-      subaccounts: [
-        // Daniel Alamba
-        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 41000 },
-        // COE ACCOUNT
-        { subaccount: "ACCT_aan2ehxiej239du", share: 200000 },
-
-        // { subaccount: "ACCT_32iz48sbi1fshex", share: 50000 },
-      ]
-    },
+    // split: {
+    //   type: "flat",
+    //   subaccounts: [
+    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 41000 },
+    //     { subaccount: "ACCT_aan2ehxiej239du", share: 200000 },
+    //   ]
+    // },
     publicKey,
     text: "Pay Now",
     onSuccess: async (reference) => {
@@ -51,39 +47,30 @@ const ApplicationCheck = () => {
         application_reference: reference.reference,
         email: email,
         application_date: paidOn.toISOString().split('T')[0],
-
       };
 
-
-
-      // Store temporary data in localStorage
-      localStorage.setItem('UserData', JSON.stringify(formData)); // Ensure the data is stored as JSON
+      localStorage.setItem('UserData', JSON.stringify(formData));
       localStorage.setItem('app_number', applicationNumber);
 
       try {
-       
-          // Navigate to the dashboard
         window.location.href = await `/dashboard/${applicationNumber.id}/acceptance-receipt`;       
       } catch (error) {
         console.error("Error sending user data:", error);
         alert("An error occurred while processing your payment. Please try again.");
-      }finally {
+      } finally {
         const response = await axios.get(`${API_ENDPOINTS.PERSONAL_DETAILS}/${applicationNumber.id}`);
         console.log(response);
         if (response.data) {
           message.loading("redirecting to fees receipt");
           window.location.href = await `/dashboard/${applicationNumber.id}/fees-receipt`;
-
-
         }
-          // window.location.href = await `/dashboard/${applicationNumber.id}/fees-receipt`;
-
-        // setLoading(false);
       }
     },
     onClose: () => alert("Wait! Don't leave :("),
   };
+  
   const correctPasskey = "coe@admin11";
+  
   const handleOk = () => {
     if (passkey === correctPasskey) {
       message.success("Access granted!");
@@ -107,7 +94,7 @@ const ApplicationCheck = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const hide = message.loading("Checking student details...", 0); // Display a loading indicator
+    const hide = message.loading("Checking student details...", 0);
 
     try {
       const response = await axios.post(`${API_ENDPOINTS.STUDENT_CHECK}`, {
@@ -117,25 +104,22 @@ const ApplicationCheck = () => {
       if (response.status === 200) {
         hide();
         if (response.data.matric_number) {
-          // Student has matric number, redirect to dashboard
           localStorage.setItem("id", response.data.id);
           console.log("Student ID:", response);
           message.success("Student found! Redirecting to dashboard...");
           navigate(`/dashboard/${response.data.id}`);
         } else if (response.data.message === "acceptance") {
-          // Student found but acceptance fee is required
           hide();
           message.success("Student found! Redirecting to Acceptance...");
           console.log("Student Details:", response);
           setApplicationNumber(response.data.user)
           setEmail(response.data.user.email)
-          setView("acceptance"); // Show acceptance fee prompt
+          setView("acceptance");
         }
       } else if (response.status === 425) {
-        // Pending status
         hide();
         message.warning("Student admission is pending.");
-        setView("pending"); // Set the view to show a pending status
+        setView("pending");
       }
     } catch (error) {
       hide();
@@ -144,30 +128,29 @@ const ApplicationCheck = () => {
         const { status, data } = error.response;
 
         if (status === 404) {
-          // Handle 404 (not found)
           message.warning("Student not found. Proceeding to fee payment.");
-
         } else if (data.message === "pending") {
-          // Handle pending response
           message.info("Student admission is pending.");
           setView("pending");
         } else {
-          // Handle unexpected backend errors
           console.error("Error checking student details:", error);
           message.error("An unexpected error occurred. Please try again later.");
         }
       } else {
-        // Handle network or unexpected errors
         console.error("Error checking student details:", error);
         message.error("A network error occurred. Please try again later.");
       }
     }
-
   };
 
-
   return (
-    <div className="application-check-container">
+    <div style={{ 
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '10px',
+      overflow: 'hidden'
+    }}>
       <Modal
         title="Admin Authentication"
         open={isModalVisible}
@@ -183,160 +166,361 @@ const ApplicationCheck = () => {
         />
       </Modal>
       
-      <div className="application-card">
-        <div className="card-header">
-          <img src={logo} width="80px" alt="Logo" className="logo" />
-          <Title level={3} style={{marginBottom: '0', marginTop: '0'}} className="text-center text-green ">College of Education Study Centre</Title>
+      <div style={{
+        width: '100%',
+        maxWidth: '900px',
+        maxHeight: '95vh',
+        background: 'white',
+        borderRadius: '20px',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
+        {/* Header */}
+        <div style={{
+          background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
+          padding: '20px 15px',
+          textAlign: 'center',
+          color: 'white',
+          flexShrink: 0
+        }}>
+          <img src={logo} alt="Logo" style={{ width: '40px', marginBottom: '8px' }} />
+          <Title level={3} style={{ color: 'white', margin: 0, fontSize: '20px' }}>
+            IBBU Consult and Services
+          </Title>
+          <Text style={{ color: 'rgba(255,255,255,0.9)', fontSize: '12px' }}>
+            Student Application Portal
+          </Text>
         </div>
 
-        <div className="card-content">
+        {/* Content */}
+        <div style={{ 
+          padding: '20px 15px', 
+          flex: 1,
+          overflow: 'auto',
+          minHeight: 0
+        }}>
           {view === 'form' && (
-            <Space direction="vertical" size="medium" style={{ width: '100%' }}>
-              <form onSubmit={handleSubmit} style={{  marginBottom:'2%', marginTop:'0%'}} className="application-form">
-                <div className="form-group">
-                  <label htmlFor="applicationNumber">Application Number/Matric Number</label>
-                  <Input
-                    size="large"
-                    id="applicationNumber"
-                    value={applicationNumber}
-                    onChange={handleInputChange}
-                    placeholder="Enter your application number or Matric Number"
-                    required
+            <Row gutter={[20, 15]} align="middle" style={{ height: '100%' }}>
+              {/* Welcome Section */}
+              <Col xs={24} md={12} style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ textAlign: 'center', width: '100%' }}>
+                  <SearchOutlined style={{ fontSize: '32px', color: '#028f64', marginBottom: '12px' }} />
+                  <Title level={4} style={{ margin: '0 0 8px 0', color: '#333', fontSize: '18px' }}>
+                    Welcome to IBBU Portal
+                  </Title>
+                  <Text style={{ color: '#666', fontSize: '13px', display: 'block', marginBottom: '12px' }}>
+                    Check your application status, pay fees, and manage your academic journey with ease.
+                  </Text>
+                  <div style={{ 
+                    background: '#f8f9fa', 
+                    padding: '12px', 
+                    borderRadius: '8px',
+                    border: '1px solid #e9ecef'
+                  }}>
+                    <Text strong style={{ color: '#028f64', fontSize: '12px' }}>
+                      Quick Access Features:
+                    </Text>
+                    <ul style={{ 
+                      textAlign: 'left', 
+                      margin: '6px 0 0 0', 
+                      paddingLeft: '18px',
+                      fontSize: '11px',
+                      color: '#666'
+                    }}>
+                      <li>Application Status Check</li>
+                      <li>Acceptance Fee Payment</li>
+                      <li>Registration Management</li>
+                      <li>Document Verification</li>
+                    </ul>
+                  </div>
+                </div>
+              </Col>
+
+              {/* Form Section */}
+              <Col xs={24} md={12} style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ width: '100%' }}>
+                  <Title level={5} style={{ margin: '0 0 12px 0', color: '#333', textAlign: 'center', fontSize: '16px' }}>
+                    Check Your Status
+                  </Title>
+
+                  <form onSubmit={handleSubmit}>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ 
+                        display: 'block', 
+                        marginBottom: '5px', 
+                        fontWeight: '500',
+                        color: '#333',
+                        fontSize: '12px'
+                      }}>
+                        Application Number / Matric Number
+                      </label>
+                      <Input
+                        size="middle"
+                        value={applicationNumber}
+                        onChange={handleInputChange}
+                        placeholder="Enter your application or matric number"
+                        required
+                        style={{
+                          borderRadius: '6px',
+                          border: '2px solid #e8e8e8',
+                          fontSize: '13px'
+                        }}
+                      />
+                    </div>
+                    
+                    <Button 
+                      type="primary" 
+                      htmlType="submit" 
+                      block 
+                      size="middle"
+                      style={{
+                        background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
+                        border: 'none',
+                        borderRadius: '6px',
+                        height: '36px',
+                        fontSize: '13px',
+                        fontWeight: '500'
+                      }}
+                    >
+                      Check Status
+                    </Button>
+                  </form>
+
+                  <Alert
+                    message="Important Information"
+                    description="New applicants should input their Application Number, returning students should input their Matriculation Number"
+                    type="info"
+                    showIcon
+                    size="small"
+                    style={{ 
+                      marginTop: '12px',
+                      borderRadius: '6px',
+                      border: '1px solid #e6f7ff',
+                      background: '#f6ffed',
+                      fontSize: '11px'
+                    }}
                   />
                 </div>
-                <Button type="primary" htmlType="submit" block size="large" className="btn-green">
-                  Continue
-                </Button>
-              </form>
-              
-              <Alert
-                message="Important Information"
-                description="New Applicants should input their Application Number, returning students should input their Matriculation Number"
-                type="info"
-                showIcon
-                className="info-alert"
-              />
-            </Space>
+              </Col>
+            </Row>
           )}
 
           {view === 'acceptance' && (
-            <div className="acceptance-view">
-              <Space direction="vertical" size="large" style={{ width: '100%' }}>
-                <Card className="acceptance-card">
-                  <Title level={4} className="text-green">Acceptance Fee Payment</Title>
-                  <Text>
-                    Congratulations! You have been offered admission to study <b>{applicationNumber.course}</b>
-                  </Text>
-                  <Text>
-                    Please proceed to pay your acceptance fee of ₦3,000 to continue with application and registration
-                  </Text>
-                  
-                  <Divider />
-                  
-                  <Space direction="vertical" size="small">
-                    <Text strong>Student Details:</Text>
-                    <Text>Name: {applicationNumber.other_names}</Text>
-                    <Text>Application Number: {applicationNumber.application_number}</Text>
-                    <Text>Email: {applicationNumber.email}</Text>
-                  </Space>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center' }}>
+              <div style={{ textAlign: 'center', marginBottom: '15px' }}>
+                <CheckCircleOutlined style={{ fontSize: '32px', color: '#52c41a', marginBottom: '8px' }} />
+                <Title level={4} style={{ margin: 0, color: '#333', fontSize: '18px' }}>
+                  Congratulations! 🎉
+                </Title>
+                <Text style={{ color: '#666', fontSize: '12px' }}>
+                  You have been offered admission
+                </Text>
+              </div>
 
-                  <div className="action-buttons">
-                    <Button 
-                      icon={<ArrowLeftOutlined />} 
-                      onClick={back}
-                      className="back-button"
-                    >
-                      Back
-                    </Button>
-                    <PaystackButton className='btn btn-green' {...componentProps} />
+              <Card style={{ 
+                borderRadius: '10px', 
+                border: '2px solid #f0f0f0',
+                marginBottom: '15px'
+              }}>
+                <div style={{ marginBottom: '12px' }}>
+                  <Text strong style={{ fontSize: '14px', color: '#333' }}>
+                    Course: {applicationNumber.course}
+                  </Text>
+                </div>
+                
+                <div style={{ marginBottom: '12px' }}>
+                  <Text style={{ color: '#666', fontSize: '12px' }}>
+                    Please proceed to pay your acceptance fee of <Text strong style={{ color: '#028f64' }}>₦3,000</Text> to continue with application and registration
+                  </Text>
+                </div>
+
+                <Divider style={{ margin: '10px 0' }} />
+                
+                <div style={{ marginBottom: '12px' }}>
+                  <Text strong style={{ display: 'block', marginBottom: '5px', fontSize: '12px' }}>Student Details:</Text>
+                  <div style={{ fontSize: '11px', color: '#666' }}>
+                    <div style={{ marginBottom: '2px' }}>Name: {applicationNumber.other_names}</div>
+                    <div style={{ marginBottom: '2px' }}>Application Number: {applicationNumber.application_number}</div>
+                    <div>Email: {applicationNumber.email}</div>
                   </div>
-                </Card>
-              </Space>
+                </div>
+              </Card>
+
+              <div style={{ display: 'flex', gap: '6px' }}>
+                <Button 
+                  icon={<ArrowLeftOutlined />} 
+                  onClick={back}
+                  size="small"
+                  style={{
+                    flex: 1,
+                    borderRadius: '6px',
+                    height: '32px',
+                    fontSize: '11px'
+                  }}
+                >
+                  Back
+                </Button>
+                <PaystackButton 
+                  className='btn btn-green' 
+                  {...componentProps}
+                  style={{
+                    flex: 2,
+                    borderRadius: '6px',
+                    height: '32px',
+                    background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
+                    border: 'none',
+                    color: 'white',
+                    fontSize: '11px',
+                    fontWeight: '500'
+                  }}
+                />
+              </div>
             </div>
           )}
 
           {view === 'pending' && (
-            <div className="pending-view">
-              <Card className="pending-card">
-                <Result
-                  icon={<WarningFilled className="icon-style" />}
-                  title={
-                    <Title level={3} className="title-text">
-                      Admission Status: Not Offered
-                    </Title>
-                  }
-                  subTitle={
-                    <Text className="subtitle-text">
-                      We regret to inform you that you have not been offered admission yet. However, keep checking for updates, as statuses may change over time.
-                    </Text>
-                  }
-                  extra={
-                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                      <Button type="primary" block onClick={() => window.location.reload()}>
-                        Refresh Status
-                      </Button>
-                      <Button block onClick={() => console.log("Contact Support")}>
-                        Contact Support
-                      </Button>
-                    </Space>
-                  }
-                />
-              </Card>
+            <div style={{ 
+              textAlign: 'center', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              height: '100%', 
+              justifyContent: 'center' 
+            }}>
+              <ClockCircleOutlined style={{ fontSize: '40px', color: '#faad14', marginBottom: '12px' }} />
+              <Title level={4} style={{ margin: '0 0 10px 0', color: '#333', fontSize: '18px' }}>
+                Admission Status: Pending
+              </Title>
+              <Text style={{ color: '#666', fontSize: '12px', display: 'block', marginBottom: '15px' }}>
+                We regret to inform you that you have not been offered admission yet. However, keep checking for updates, as statuses may change over time.
+              </Text>
+              
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <Button 
+                  type="primary" 
+                  onClick={() => window.location.reload()}
+                  size="small"
+                  style={{
+                    background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
+                    border: 'none',
+                    borderRadius: '6px',
+                    height: '32px',
+                    fontSize: '11px'
+                  }}
+                >
+                  Refresh Status
+                </Button>
+                <Button 
+                  onClick={() => console.log("Contact Support")}
+                  size="small"
+                  style={{
+                    borderRadius: '6px',
+                    height: '32px',
+                    fontSize: '11px'
+                  }}
+                >
+                  Contact Support
+                </Button>
+              </div>
             </div>
           )}
 
           {view === 'verification' && (
-            <Layout>
-              <Content className="verification-content">
-                <Title level={2} style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <div>
+              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <CreditCardFilled style={{ fontSize: '40px', color: '#028f64', marginBottom: '10px' }} />
+                <Title level={4} style={{ margin: 0, color: '#333' }}>
                   Payment Verification
                 </Title>
-
-                <PaystackVerification
-                  userEmail={email}
-                  id={applicationNumber.id}
-                  applicationNumber={applicationNumber}
-                />
-
-                <Text type="secondary" className="verification-info">
-                  Please enter the reference code from your payment receipt and the amount you paid.
+                <Text style={{ color: '#666', fontSize: '13px' }}>
+                  Enter your payment details for verification
                 </Text>
-              </Content>
-            </Layout>
+              </div>
+
+              <PaystackVerification
+                userEmail={email}
+                id={applicationNumber.id}
+                applicationNumber={applicationNumber}
+              />
+            </div>
           )}
         </div>
 
-        <div className="card-footer">
-          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <Text>New to the portal?</Text>
+        {/* Footer */}
+        <div style={{
+          background: '#f8f9fa',
+          padding: '12px 15px',
+          borderTop: '1px solid #e8e8e8',
+          flexShrink: 0
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <Text style={{ textAlign: 'center', color: '#666', fontSize: '11px', marginBottom: '2px' }}>
+              New to the portal?
+            </Text>
             <Button 
               type="primary" 
               block 
               onClick={() => navigate('/registration')}
-              className="register-button"
+              size="small"
+              style={{
+                background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
+                border: 'none',
+                borderRadius: '6px',
+                height: '28px',
+                fontSize: '11px'
+              }}
             >
               Register Now
             </Button>
             <Button
               icon={<UserOutlined />}
+              onClick={() => navigate('/agent-registration')}
+              block
+              size="small"
+              style={{
+                borderRadius: '6px',
+                height: '28px',
+                fontSize: '11px',
+                border: '2px solid #028f64',
+                color: '#028f64'
+              }}
+            >
+              Agent Registration
+            </Button>
+            <Button
+              icon={<UserOutlined />}
               onClick={() => setIsModalVisible(true)}
               block
-              className="admin-button"
+              size="small"
+              style={{
+                borderRadius: '6px',
+                height: '28px',
+                fontSize: '11px',
+                border: '2px solid #666',
+                color: '#666'
+              }}
             >
               Admin Portal
             </Button>
             {view === 'acceptance' && (
-
-            <Button
-              icon={<UserOutlined />}
-              onClick={() => setView('verification')}
-              block
-              className="admin-button"
-            >
-              Payment Verification
-            </Button>
+              <Button
+                icon={<UserOutlined />}
+                onClick={() => setView('verification')}
+                block
+                size="small"
+                style={{
+                  borderRadius: '6px',
+                  height: '28px',
+                  fontSize: '11px',
+                  border: '2px solid #1890ff',
+                  color: '#1890ff'
+                }}
+              >
+                Payment Verification
+              </Button>
             )}
-          </Space>
+          </div>
         </div>
       </div>
     </div>

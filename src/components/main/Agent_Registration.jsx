@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Button, Upload, Select, DatePicker, Typography, Row, message, Steps, theme, Card, Col, ConfigProvider, Divider, Alert } from 'antd';
-import { CloudUploadOutlined, UploadOutlined, SmileOutlined, SolutionOutlined, UserOutlined, WarningOutlined, FileFilled, LoadingOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Upload, Select, DatePicker, Typography, Row, message, Steps, theme, Card, Col, ConfigProvider, Divider, Alert, Space } from 'antd';
+import { CloudUploadOutlined, UploadOutlined, SmileOutlined, SolutionOutlined, UserOutlined, WarningOutlined, FileFilled, LoadingOutlined, LockOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import './style.css';
 import logo from '../../assets/logo.png';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { PaystackButton } from "react-paystack";
 import API_ENDPOINTS from '../../Endpoints/environment';
+
+const { Title, Text } = Typography;
+const { Option } = Select;
 
 const steps = [
   {
@@ -24,67 +27,6 @@ const steps = [
   },
 ];
 
-const schoolsData = {
-  "School of Sciences": [
-    "Mathematics / Geography",
-    "Maths / Economics",
-    "Maths / Biology",
-    "Maths / Computer Science",
-    "Maths / Special Education",
-    "Biology / Inter Science",
-    "Integrated Sciences (Double Major)",
-    "Biology / Geography",
-    "PHE (Double Major)",
-    "Biology / Special Education",
-  ],
-  "School of Technical Education": [
-    "Technical Education Double Major",
-    "Electrical / Electronics",
-    "Automobile",
-    "Building",
-    "Wood Work",
-    "Metal Work",
-  ],
-  "School of Arts and Social Sciences": [
-    "Geography / History",
-    "Geography / Economics",
-    "Geography / Social Studies",
-    "History / CRS",
-    "History / Islamic Studies",
-    "Social Studies / Economics",
-    "Social Studies / CRS",
-    "Social Studies / Islamic Studies",
-    "Islamic Studies / Special Education",
-    "Eco / Special Education",
-    "CRS / Special Education",
-    "History / Special Education",
-  ],
-  "School of Education": [
-    "Primary Education Studies (Double Major)",
-    "Early Childhood Care Education (Double Major)",
-  ],
-  "School of Languages": [
-    "English / History",
-    "English / CRS",
-    "English / Arabic",
-    "English / Hausa",
-    "English / Social Studies",
-    "Hausa / Islamic Studies",
-    "Hausa / Arabic",
-    "Hausa / Social Studies",
-    "Arabic / Islamic Studies",
-    "English / Islamic Studies",
-    "Arabic / Social Studies",
-    "English / Special Education",
-    "Hausa / Special Education",
-  ],
-  "School of Vocational Education": [
-    "Agricultural Science Education (Double Major)",
-    "Home Economics (Double Major)",
-    "Business Education (Double Major)",
-  ],
-};
-
 const newSchoolsData = [
   "Accounting",
   "Business Administration",
@@ -95,11 +37,13 @@ const newSchoolsData = [
   "security and intelligence Studies",
 ]
 
-const { Title, Text } = Typography;
-const { Option } = Select;
-
-const Registration = () => {
-  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
+const AgentRegistration = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  
+  // Registration form states
+  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
   const [step, setStep] = useState('step1')
   const [selectedSchool, setSelectedSchool] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -112,7 +56,6 @@ const Registration = () => {
   const [secondStep, setSecondStep] = useState(null);
   const [thirdStep, setThirdStep] = useState(null);
   const { token } = theme.useToken();
-  const navigate = useNavigate();
   const amount = 400000;
   const [email, setEmail] = useState(firstStep.phone_number);
   const [current, setCurrent] = useState(0);
@@ -141,8 +84,6 @@ const Registration = () => {
     title: item.title,
   }));
 
-
-
   // Fetch LGAs from the API based on selected state
   const getLGAFromApi = async (state) => {
     setLoadingLGAs(true);
@@ -159,7 +100,6 @@ const Registration = () => {
     }
   };
 
-
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
     if (!isJpgOrPng) {
@@ -171,7 +111,6 @@ const Registration = () => {
     }
     return isJpgOrPng && isLt2M;
   };
-
 
   const handleUploadChange = (info, setUploadedState, type) => {
     const { status } = info.file;
@@ -213,6 +152,12 @@ const Registration = () => {
       console.log('Dropped files', e.dataTransfer.files);
     },
   });
+
+  // Agent credentials (in a real app, this would be stored securely on the backend)
+  const agentCredentials = {
+    username: 'agent',
+    password: 'agent123'
+  };
 
   const onFinish = async (values) => {
     if (step === 'step1') {
@@ -283,24 +228,23 @@ const Registration = () => {
     }
   }
 
-
   const componentProps = {
     email,
     amount,
     metadata: {
       phone: firstStep.phone_number,
     },
-    // split: {
-    //   type: "flat",
-    //   subaccounts: [
-    //     // DANIEL ALAMBA
-    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
-    //     // COE ACCOUNT
-    //     { subaccount: "ACCT_aan2ehxiej239du", share: 325000 },
+    split: {
+      type: "flat",
+      subaccounts: [
+        // DANIEL ALAMBA
+        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
+        // COE ACCOUNT
+        { subaccount: "ACCT_aan2ehxiej239du", share: 325000 },
 
-    //     // { subaccount: "ACCT_32iz48sbi1fshex", share: 50000 },
-    //   ]
-    // },
+        // { subaccount: "ACCT_32iz48sbi1fshex", share: 50000 },
+      ]
+    },
     publicKey,
     text: "Pay Now",
     onSuccess: async (reference) => {
@@ -309,9 +253,9 @@ const Registration = () => {
     onClose: () => alert("Wait! Don't leave :("),
   };
 
-  const sendDetails = async (reference) => {
+  const sendDetails = async () => {
     try {
-      // console.log(values)
+      setLoading(true);
       const adjustedDOB = firstStep.date_of_birth.format('YYYY-MM-DD');
       const year = new Date().getFullYear();
 
@@ -319,15 +263,14 @@ const Registration = () => {
         ...firstStep,
         application_number: `${thirdStep.exam_year + thirdStep.exam_number}`,
         date_of_birth: adjustedDOB,
-        application_reference: reference.reference,
-        passport: passport, olevel1: uploadedOl1,
+        application_reference: `AGENT_${Date.now()}`, // Generate agent reference
+        passport: passport, 
+        olevel1: uploadedOl1,
         nin: nin,
       };
-      const personalResponse = await axios.post(API_ENDPOINTS.PERSONAL_DETAILS,
-        personalFormData);
-
-      console.log(personalResponse);
-
+      
+      const personalResponse = await axios.post(API_ENDPOINTS.PERSONAL_DETAILS, personalFormData);
+      console.log('Personal Response:', personalResponse);
 
       const adjustedPSF1 = secondStep.p_school_from_1?.format('YYYY-MM-DD');
       const adjustedPST1 = secondStep.p_school_to_1?.format('YYYY-MM-DD');
@@ -350,30 +293,30 @@ const Registration = () => {
         s_school_to_1: adjustedSST1,
         s_school_from_2: adjustedSSF2,
         s_school_to_2: adjustedSST2,
-
       }
+      
       const schoolResponse = await axios.post(API_ENDPOINTS.SCHOOL_DETAILS, schoolFormData);
-      console.log(schoolResponse);
+      console.log('School Response:', schoolResponse);
 
       console.log('Third Form Values:', thirdStep);
-      const educationFormData = await { ...thirdStep, application_number: personalResponse.data.id }
+      const educationFormData = { ...thirdStep, application_number: personalResponse.data.id }
       const finalResponse = await axios.post(`${API_ENDPOINTS.EDUCATIONALS_APPLICATION}`, educationFormData)
-      console.log(finalResponse);
+      console.log('Final Response:', finalResponse);
+      
       if (finalResponse) {
-
-        // Store the ID from the response
-        // localStorage.setItem("id", response.data.data.id);
-
-        // Navigate to the dashboard
-        navigate(`${personalResponse.data.id}/success`)
+        message.success('Application submitted successfully!');
+        // Navigate to success page
+        navigate(`/registration/${personalResponse.data.id}/success`)
       } else {
-        console.error("No ID returned in the response.");
-        alert("Payment successful, but we couldn't process your data. Please contact support.");
+        console.error("No response returned.");
+        message.error("Application submission failed. Please try again.");
       }
     } catch (error) {
       console.error("Error sending user data:", error);
-      alert("An error occurred while processing your payment. Please try again.");
+      message.error("An error occurred while submitting your application. Please try again.");
       setStep('step3')
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -425,6 +368,29 @@ const Registration = () => {
     getLGAFromApi(value);
   };
 
+  const handleExamTypeChange = (value) => {
+    setSelectedExamType(value);
+  };
+
+  const handleAuthentication = async (values) => {
+    setLoading(true);
+    
+    // Simulate API call delay
+    setTimeout(() => {
+      if (values.username === agentCredentials.username && values.password === agentCredentials.password) {
+        message.success('Authentication successful!');
+        setIsAuthenticated(true);
+      } else {
+        message.error('Invalid username or password!');
+      }
+      setLoading(false);
+    }, 1000);
+  };
+
+  const handleBack = () => {
+    navigate('/');
+  };
+
   useEffect(() => {
     // Mock API data
     const getStatesFromApi = async () => {
@@ -469,19 +435,119 @@ const Registration = () => {
 
   }, []);
 
-  const handleExamTypeChange = (value) => {
-    setSelectedExamType(value);
-  };
+  if (!isAuthenticated) {
+    return (
+      <div className="application-check-container">
+        <div className="application-card" style={{ maxHeight: '90vh', overflow: 'hidden' }}>
+          <div className="card-header">
+            <img src={logo} width="60px" alt="Logo" className="logo" />
+            <Title level={4} style={{marginBottom: '0', marginTop: '0'}} className="text-center text-green">
+              IBBU Consult and services
+            </Title>
+          </div>
 
+          <div className="" style={{ padding: '5px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Card
+              style={{
+                width: '100%',
+                maxWidth: 350,
+                borderRadius: 10,
+                boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <Title level={4} style={{ textAlign: 'center', marginBottom: '16px', color: '#028f64' }}>
+                Agent Authentication
+              </Title>
+              
+              <Alert
+                message="Agent Access Required"
+                description="Enter your credentials to access the registration portal."
+                type="info"
+                showIcon
+                style={{ marginBottom: '16px', fontSize: '12px' }}
+              />
+
+              <Form
+                layout="vertical"
+                onFinish={handleAuthentication}
+                size="middle"
+              >
+                <Form.Item
+                  label="Username"
+                  name="username"
+                  rules={[{ required: true, message: 'Please enter your username!' }]}
+                  style={{ marginBottom: '12px' }}
+                >
+                  <Input 
+                    prefix={<UserOutlined />} 
+                    placeholder="Enter username"
+                    size="middle"
+                  />
+                </Form.Item>
+
+                <Form.Item
+                  label="Password"
+                  name="password"
+                  rules={[{ required: true, message: 'Please enter your password!' }]}
+                  style={{ marginBottom: '16px' }}
+                >
+                  <Input.Password 
+                    prefix={<LockOutlined />} 
+                    placeholder="Enter password"
+                    size="middle"
+                  />
+                </Form.Item>
+
+                <Form.Item style={{ marginBottom: '12px' }}>
+                  <ConfigProvider
+                    theme={{
+                      token: {
+                        colorPrimary: '#028f64',
+                        borderRadius: 2,
+                      },
+                    }}
+                  >
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      block
+                      loading={loading}
+                      style={{
+                        backgroundColor: '#028f64',
+                        borderColor: '#028f64',
+                        height: '36px',
+                      }}
+                    >
+                      {loading ? 'Authenticating...' : 'Login'}
+                    </Button>
+                  </ConfigProvider>
+                </Form.Item>
+              </Form>
+
+              <div style={{ textAlign: 'center' }}>
+                <Button 
+                  type="link" 
+                  icon={<ArrowLeftOutlined />}
+                  onClick={handleBack}
+                  style={{ color: '#028f64', fontSize: '12px' }}
+                  size="small"
+                >
+                  Back to Home
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Agent Registration Form (replica of main registration form)
   return (
     <>
-
-
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <div className="header">
           <span style={{ margin: 'auto', display: 'flex' }}>
-
-
             <img
               src={logo}
               alt="College Logo"
@@ -499,9 +565,8 @@ const Registration = () => {
         >
           <div className="form-container">
             <div className="form-header">
-
               <b className="form-subtitle">
-                Application for Admission into NCE Programme (LVSP)
+                Application for Admission into NCE Programme (LVSP) - Agent Portal
               </b>
               <ConfigProvider
                 theme={{
@@ -534,8 +599,6 @@ const Registration = () => {
                     },
                   }}
                 >
-
-
                   <Steps
                     items={[
                       {
@@ -564,7 +627,6 @@ const Registration = () => {
                 </ConfigProvider>
                 <Row gutter={[16, 16]} style={{ justifyContent: 'space-between' }}>
                   <div style={{ width: '50%', margin: 'auto', display: 'flex', flexWrap: 'wrap' }}>
-
                     <div
                       style={{
                         border: "1px dashed #d9d9d9",
@@ -576,7 +638,6 @@ const Registration = () => {
                     >
                       {imageUrl ? (
                         <div style={{ width: '100px', height: 'auto' }}>
-
                           <img
                             src={imageUrl}
                             alt="passport"
@@ -585,7 +646,6 @@ const Registration = () => {
                         </div>
                       ) : (
                         <div style={{ width: '100px', height: '100px', display: 'flex' }}>
-
                           <UserOutlined style={{ fontSize: 48, color: "#999", margin: 'auto' }} />
                         </div>
                       )}
@@ -669,7 +729,6 @@ const Registration = () => {
                       <Input placeholder="Enter your Address" />
                     </Form.Item>
                   </Col>
-
                 </Row>
 
                 <Row gutter={[16, 16]}>
@@ -724,7 +783,6 @@ const Registration = () => {
 
                 <Row gutter={[16, 16]}>
                   <Col xs={12} md={8}>
-
                     <Form.Item
                       label="Religion"
                       name="religion"
@@ -734,7 +792,6 @@ const Registration = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={12} md={8}>
-
                     <Form.Item
                       label="Phone Number"
                       name="phone_number"
@@ -744,7 +801,6 @@ const Registration = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={12} md={8}>
-
                     <Form.Item
                       label="Email"
                       name="email"
@@ -786,7 +842,6 @@ const Registration = () => {
                 </Row>
                 <Row gutter={[16, 16]}>
                   <Col xs={24} md={12}>
-
                     <Form.Item
                       label="Mother's Place of Birth"
                       name="mother_place_of_birth"
@@ -796,7 +851,6 @@ const Registration = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={24} md={12}>
-
                     <Form.Item
                       label="Mother's State of Origin"
                       name="mother_state_of_origin"
@@ -805,12 +859,9 @@ const Registration = () => {
                       <Input placeholder="Enter your Mother's State of Origin" />
                     </Form.Item>
                   </Col>
-
                 </Row>
                 <Row gutter={[16, 16]}>
                   <Col xs={12} md={8}>
-
-
                     <Form.Item
                       label="Applicant's Occupation"
                       name="applicant_occupation"
@@ -820,8 +871,6 @@ const Registration = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={12} md={8}>
-
-
                     <Form.Item
                       label="Working Experience"
                       name="working_experience"
@@ -831,8 +880,6 @@ const Registration = () => {
                     </Form.Item>
                   </Col>
                   <Col xs={12} md={8}>
-
-
                     <Form.Item
                       label="Centre Location"
                       name="desired_study_cent"
@@ -845,7 +892,6 @@ const Registration = () => {
                           // "Tegina",
                           // "Kontogora",
                           // "New Bussa",
-
                         ].map(
                           (month) => (
                             <Option key={month} value={month}>
@@ -856,9 +902,7 @@ const Registration = () => {
                       </Select>
                     </Form.Item>
                   </Col>
-
                 </Row>
-
               </div>
             )}
             {step === 'step2' && (
@@ -876,7 +920,6 @@ const Registration = () => {
                     },
                   }}
                 >
-
                   <Steps
                     items={[
                       {
@@ -894,7 +937,6 @@ const Registration = () => {
                         status: 'wait',
                         icon: <SolutionOutlined />,
                       },
-
                       {
                         title: 'Done',
                         status: 'wait',
@@ -909,11 +951,9 @@ const Registration = () => {
                   <h2>School and Course Selection</h2>
 
                   {/* School Dropdown */}
-
                   <h4>School Attended</h4>
                   <h5>Primary</h5>
                   <Row gutter={[16, 16]}>
-
                     <b>1</b>
                     <Col xs={12} md={8}>
                       <Form.Item
@@ -931,7 +971,6 @@ const Registration = () => {
                         rules={[{ required: true, message: "Please enter your arrival date in the school" }]}
                       >
                         <DatePicker style={{ width: '100%' }} />
-
                       </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
@@ -941,18 +980,15 @@ const Registration = () => {
                         rules={[{ required: true, message: "Please enter when you exited the school" }]}
                       >
                         <DatePicker style={{ width: '100%' }} />
-
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={[16, 16]}>
-
                     <b>2</b>
                     <Col xs={12} md={8}>
                       <Form.Item
                         label="School Name"
                         name="p_school_name_2"
-
                       >
                         <Input placeholder="Enter School name" />
                       </Form.Item>
@@ -963,7 +999,6 @@ const Registration = () => {
                         name="p_school_from_2"
                       >
                         <DatePicker style={{ width: '100%' }} />
-
                       </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
@@ -972,15 +1007,12 @@ const Registration = () => {
                         name="p_school_to_2"
                       >
                         <DatePicker style={{ width: '100%' }} />
-
                       </Form.Item>
                     </Col>
                   </Row>
 
-
                   <h5>Secondary</h5>
                   <Row gutter={[16, 16]}>
-
                     <b>1</b>
                     <Col xs={12} md={8}>
                       <Form.Item
@@ -1011,13 +1043,11 @@ const Registration = () => {
                     </Col>
                   </Row>
                   <Row gutter={[16, 16]}>
-
                     <b>2</b>
                     <Col xs={12} md={8}>
                       <Form.Item
                         label="School Name"
                         name="s_school_name_2"
-
                       >
                         <Input placeholder="Enter School name" />
                       </Form.Item>
@@ -1040,15 +1070,11 @@ const Registration = () => {
                     </Col>
                   </Row>
 
-                    <h3>Select Diploma Programme of choice</h3>
+                  <h3>Select Diploma Programme of choice</h3>
                   <div className="choice">
                     <div>
-
                       <h5>First Choice</h5>
                       <div className="choice-sub">
-
-                   
-
                         {/* Course Dropdown */}
                         <div style={{ marginBottom: "20px" }}>
                           <Form.Item
@@ -1079,10 +1105,8 @@ const Registration = () => {
                     </div>
 
                     <div>
-
                       <h5>Second Choice</h5>
                       <div className="choice-sub">
-
                         {/* Course Dropdown */}
                         <div style={{ marginBottom: "20px" }}>
                           <Form.Item
@@ -1111,26 +1135,12 @@ const Registration = () => {
                         </div>
                       </div>
                     </div>
-
                   </div>
-
-
-
-                  {/* Display Selected Values */}
-                  {/* <div>
-                    <p>
-                        <strong>Selected School:</strong> {selectedSchool || "None"}
-                    </p>
-                    <p>
-                        <strong>Selected Course:</strong> {selectedCourse || "None"}
-                    </p>
-                </div> */}
                 </div>
               </div>
             )}
             {step === 'step3' && (
               <>
-
                 <div style={{ padding: "30px", backgroundColor: "#f5f5f5", minHeight: "100vh" }}>
                   <ConfigProvider
                     theme={{
@@ -1145,7 +1155,6 @@ const Registration = () => {
                       },
                     }}
                   >
-
                     <Steps
                       items={[
                         {
@@ -1163,7 +1172,6 @@ const Registration = () => {
                           status: 'process',
                           icon: <SolutionOutlined />,
                         },
-
                         {
                           title: 'Done',
                           status: 'wait',
@@ -1237,46 +1245,44 @@ const Registration = () => {
                         </Form.Item>
                       </Col>
 
-                    <Col xs={12} md={8} style={{ marginTop: '2%' }}>
+                      <Col xs={12} md={8} style={{ marginTop: '2%' }}>
+                        <Upload {...props(setUploadedAL1, 'olevel')} style={{ marginBlock: '2%' }}>
+                          <ConfigProvider
+                            theme={{
+                              token: {
+                                // Seed Token
+                                colorPrimary: '#028f64',
+                                borderRadius: 2,
 
-                    <Upload {...props(setUploadedAL1, 'olevel')} style={{ marginBlock: '2%' }}>
-                      <ConfigProvider
-                        theme={{
-                          token: {
-                            // Seed Token
-                            colorPrimary: '#028f64',
-                            borderRadius: 2,
+                                // Alias Token
+                                margin: '20px',
+                                colorBgContainer: '#f6ffed',
+                              },
+                            }}
+                          >
+                            <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} icon={<CloudUploadOutlined />}>Click to Upload O Level </Button>
+                          </ConfigProvider>
+                        </Upload>
+                      </Col>
+                      <Col xs={12} md={8} style={{ marginTop: '2%' }}>
+                        <Upload {...props(setUploadedAL1, 'nin')} style={{ marginTop: '2%' }}>
+                          <ConfigProvider
+                            theme={{
+                              token: {
+                                // Seed Token
+                                colorPrimary: '#028f64',
+                                borderRadius: 2,
 
-                            // Alias Token
-                            margin: '20px',
-                            colorBgContainer: '#f6ffed',
-                          },
-                        }}
-                      >
-                        <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} icon={<CloudUploadOutlined />}>Click to Upload O Level </Button>
-                      </ConfigProvider>
-                    </Upload>
-                    </Col>
-                    <Col xs={12} md={8} style={{ marginTop: '2%' }}>
-
-                    <Upload {...props(setUploadedAL1, 'nin')} style={{ marginTop: '2%' }}>
-                      <ConfigProvider
-                        theme={{
-                          token: {
-                            // Seed Token
-                            colorPrimary: '#028f64',
-                            borderRadius: 2,
-
-                            // Alias Token
-                            margin: '20px',
-                            colorBgContainer: '#f6ffed',
-                          },
-                        }}
-                      >
-                        <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} icon={<FileFilled />}>Click to additional O Level (optional) </Button>
-                      </ConfigProvider>
-                    </Upload>
-                        </Col>
+                                // Alias Token
+                                margin: '20px',
+                                colorBgContainer: '#f6ffed',
+                              },
+                            }}
+                          >
+                            <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} icon={<FileFilled />}>Click to additional O Level (optional) </Button>
+                          </ConfigProvider>
+                        </Upload>
+                      </Col>
                     </Row>
 
                     <div style={{ margin: '1%' }}></div>
@@ -1314,8 +1320,6 @@ const Registration = () => {
                         </Col>
                       </Row>
                     ))}
-
-
                   </Card>
                 </div>
               </>
@@ -1323,7 +1327,6 @@ const Registration = () => {
 
             {step === 'step4' && (
               <div style={{ padding: '1% 2%' }}>
-
                 <ConfigProvider
                   theme={{
                     token: {
@@ -1337,7 +1340,6 @@ const Registration = () => {
                     },
                   }}
                 >
-
                   <Steps
                     items={[
                       {
@@ -1355,50 +1357,187 @@ const Registration = () => {
                         status: 'finish',
                         icon: <SolutionOutlined />,
                       },
-
                       {
-                        title: 'Done',
+                        title: 'Review & Submit',
                         status: 'process',
                         icon: <SmileOutlined />,
                       },
                     ]}
                     style={{ marginBottom: '2%' }}
                   />
-                </ConfigProvider> <div style={{ display: "flex", justifyContent: "center", padding: "2rem" }}>
+                </ConfigProvider> 
+                
+                <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem" }}>
                   <Card
                     style={{
-                      width: 400,
                       borderRadius: 10,
                       boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-                      textAlign: "center",
                     }}
-                    title={<Title level={4}>Complete Your Application</Title>}
+                    title={
+                      <Title level={3} style={{ textAlign: "center", color: "#028f64", marginBottom: "20px" }}>
+                        Application Preview
+                      </Title>
+                    }
                   >
-                    <Text style={{ fontSize: "16px" }}>
-                      To submit your application, you need to pay the application fee.
-                    </Text>
-                    <Divider />
-                    <div style={{ margin: "0.5rem 0" }}>
-                      <Text type="warning"><WarningOutlined /> Please Ensure to review your submissions before proceeding to pay</Text><br />
-                      <Text strong style={{ fontSize: "18px", color: "#028f64" }}>
-                        Fee Amount: ₦4,000
-                      </Text>
+                    <Alert
+                      message="Review Your Application"
+                      description="Please review all the information below before submitting your application. This is the final step."
+                      type="info"
+                      showIcon
+                      style={{ marginBottom: '20px' }}
+                    />
+
+                    {/* Personal Details Preview */}
+                    <div style={{ marginBottom: '30px' }}>
+                      <Title level={4} style={{ color: '#028f64', borderBottom: '2px solid #028f64', paddingBottom: '8px' }}>
+                        Personal Particulars
+                      </Title>
+                      <Row gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                          <Text strong>Name:</Text> {firstStep.surname} {firstStep.other_names}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Phone Number:</Text> {firstStep.phone_number}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Email:</Text> {firstStep.email}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Date of Birth:</Text> {firstStep.date_of_birth?.format('DD/MM/YYYY')}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Marital Status:</Text> {firstStep.marital_status}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>State of Origin:</Text> {firstStep.state_of_origin}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Local Government:</Text> {firstStep.local_government}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Address:</Text> {firstStep.address}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Ethnic Group:</Text> {firstStep.ethnic_group}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Religion:</Text> {firstStep.religion}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Occupation:</Text> {firstStep.applicant_occupation}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Working Experience:</Text> {firstStep.working_experience}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Study Centre:</Text> {firstStep.desired_study_cent}
+                        </Col>
+                      </Row>
                     </div>
 
-                    <PaystackButton className='btn btn-green' {...componentProps} />
+                    {/* School Details Preview */}
+                    <div style={{ marginBottom: '30px' }}>
+                      <Title level={4} style={{ color: '#028f64', borderBottom: '2px solid #028f64', paddingBottom: '8px' }}>
+                        School Details
+                      </Title>
+                      <Row gutter={[16, 16]}>
+                        <Col xs={24} md={12}>
+                          <Text strong>Primary School 1:</Text> {secondStep?.p_school_name_1}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Primary School 1 Period:</Text> {secondStep?.p_school_from_1?.format('DD/MM/YYYY')} - {secondStep?.p_school_to_1?.format('DD/MM/YYYY')}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Secondary School 1:</Text> {secondStep?.s_school_name_1}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Secondary School 1 Period:</Text> {secondStep?.s_school_from_1?.format('DD/MM/YYYY')} - {secondStep?.s_school_to_1?.format('DD/MM/YYYY')}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>First Choice Course:</Text> {secondStep?.first_course}
+                        </Col>
+                        <Col xs={24} md={12}>
+                          <Text strong>Second Choice Course:</Text> {secondStep?.second_course}
+                        </Col>
+                      </Row>
+                    </div>
 
+                    {/* Educational Qualifications Preview */}
+                    <div style={{ marginBottom: '30px' }}>
+                      <Title level={4} style={{ color: '#028f64', borderBottom: '2px solid #028f64', paddingBottom: '8px' }}>
+                        Educational Qualifications
+                      </Title>
+                      <Row gutter={[16, 16]}>
+                        <Col xs={24} md={8}>
+                          <Text strong>Exam Type:</Text> {thirdStep?.exam_type}
+                        </Col>
+                        <Col xs={24} md={8}>
+                          <Text strong>Exam Number:</Text> {thirdStep?.exam_number}
+                        </Col>
+                        <Col xs={24} md={8}>
+                          <Text strong>Exam Year:</Text> {thirdStep?.exam_year}
+                        </Col>
+                        <Col xs={24} md={8}>
+                          <Text strong>Exam Month:</Text> {thirdStep?.exam_month}
+                        </Col>
+                      </Row>
+                      
+                      <Divider />
+                      <Title level={5}>Subjects and Grades</Title>
+                      <Row gutter={[16, 16]}>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((index) => (
+                          <Col xs={24} md={12} key={index}>
+                            {thirdStep?.[`subject_${index}`] && (
+                              <div style={{ marginBottom: '8px' }}>
+                                <Text strong>{thirdStep[`subject_${index}`]}:</Text> {thirdStep[`grade_${index}`]}
+                              </div>
+                            )}
+                          </Col>
+                        ))}
+                      </Row>
+                    </div>
 
                     <Divider />
-                    <Button type="link" style={{ color: "#028f64" }}>
-                      Need help with payment?
-                    </Button>
+                    
+                    <div style={{ textAlign: "center", marginTop: "20px" }}>
+                      <Alert
+                        message="Agent Registration"
+                        description="This application will be submitted without payment as it's being processed by an authorized agent."
+                        type="success"
+                        showIcon
+                        style={{ marginBottom: '20px' }}
+                      />
+                      
+                      <ConfigProvider
+                        theme={{
+                          token: {
+                            colorPrimary: '#028f64',
+                            borderRadius: 2,
+                          },
+                        }}
+                      >
+                        <Button
+                          type="primary"
+                          size="large"
+                          onClick={sendDetails}
+                          loading={loading}
+                          style={{
+                            backgroundColor: "#028f64",
+                            borderColor: "#028f64",
+                            padding: "12px 40px",
+                            height: 'auto',
+                            fontSize: '16px'
+                          }}
+                        >
+                          {loading ? 'Submitting...' : 'Submit Application'}
+                        </Button>
+                      </ConfigProvider>
+                    </div>
                   </Card>
                 </div>
               </div>
             )}
             <div style={{ display: 'flex', padding: '2%' }}>
-
-
               <Button color='danger' onClick={stepback}>
                 Back
               </Button> &nbsp;
@@ -1432,16 +1571,10 @@ const Registration = () => {
               </ConfigProvider>
             </div>
           </div>
-
         </Form>
-
       </div>
-
-
-
     </>
-
   );
 };
 
-export default Registration;
+export default AgentRegistration;

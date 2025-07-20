@@ -7,7 +7,7 @@ import API_ENDPOINTS from "../../../../Endpoints/environment";
 import axios from "axios";
 import './docstyle.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import logo from '../../../../assets/logo2.png';
+import logo from '../../../../assets/logo.png';
 
 
 
@@ -123,14 +123,14 @@ const Acceptance_Receipt = () => {
                     border: "1px solid #ddd",
                     margin: "20px auto",
                     fontFamily: "Arial, sans-serif",
-                    backgroundImage: "url('../../../../assets/logo2.png') !important"
+                    backgroundImage: "url('../../../../assets/logo.png') !important"
                 }}
                 align="middle" justify="space-around"
             >
                 <div  style={{ textAlign: "center", marginBottom: 20 }}>
                     <Row align="middle" justify="space-around">
                         <Col span={16}>
-                            <Title type="success" level={3} className="text-green-600 m-auto">NIGER STATE COLLEGE OF EDUCATION</Title>
+                            <Title type="success" level={3} className="text-green-600 m-auto">NIGER STATE IBBU Diploma Program</Title>
                         </Col>
 
                     </Row>
@@ -211,7 +211,7 @@ const Acceptance_Receipt = () => {
                 <Divider />
                 <Paragraph style={{ textAlign: "center" }}>
                     <Text strong>OFFICIAL RECEIPT</Text><br/>
-                    <Text>Niger State College of Education</Text>
+                    <Text>Niger State IBBU Diploma Program</Text>
                 </Paragraph>
                 <Paragraph style={{ textAlign: "right" }}>
                     <Text strong>Bursary Department</Text><br/>

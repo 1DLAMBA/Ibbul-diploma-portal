@@ -13,6 +13,7 @@ import Admin_Panel from './components/main/dashboard/admin/Admin_Panel';
 import View_applications from './components/main/dashboard/admin/admin-pages/View_Applications';
 import Add_Applications from './components/main/dashboard/admin/admin-pages/Add_Application';
 import Registration from './components/main/Registration';
+import AgentRegistration from './components/main/Agent_Registration';
 import Reg_Success from './components/Reg_Success';
 import Single_Application from './components/main/dashboard/admin/admin-pages/Single_Appliaction';
 import { Admin_dashboard } from './components/main/dashboard/admin/admin-pages/Admin_dashboard';
@@ -46,6 +47,7 @@ function App() {
 
         </Route>
         <Route path="/registration" element={<Registration />} />
+        <Route path="/agent-registration" element={<AgentRegistration />} />
         <Route path='/registration/:id/success' element={<Reg_Success />} />
 
 

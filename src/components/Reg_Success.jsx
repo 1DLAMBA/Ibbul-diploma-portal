@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "./RegSuccess.css";
 import API_ENDPOINTS from "../Endpoints/environment";
-import logo from '../assets/logo2.png';
+import logo from '../assets/logo.png';
 
 const { Title } = Typography;
 
@@ -97,7 +97,7 @@ const Reg_Success = () => {
                 alt="College Logo"
                 className="form-logo"
               /><br/>
-              College Of Education NCE Programme Application Slip
+              IBBU Diploma Program Application Slip
             </Title>
           </div>
           <Title level={5} style={{ color: "black", textAlign: "right" }}>
@@ -157,21 +157,21 @@ const Reg_Success = () => {
             </Descriptions.Item>
           </Descriptions>
           <Descriptions
-            title="Education Details"
+            title="Education Choices"
             column={1}
             bordered
             size="small"
           >
-            <Descriptions.Item label="First School">
+            <Descriptions.Item label="First School choice">
               {studentDetails.first_school || "N/A"}
             </Descriptions.Item>
-            <Descriptions.Item label="First Course">
+            <Descriptions.Item label="First Course choice">
               {studentDetails.first_course || "N/A"}
             </Descriptions.Item>
-            <Descriptions.Item label="Second School">
+            <Descriptions.Item label="Second School choice">
               {studentDetails.second_school || "N/A"}
             </Descriptions.Item>
-            <Descriptions.Item label="Second Course">
+            <Descriptions.Item label="Second Course choice">
               {studentDetails.second_course || "N/A"}
             </Descriptions.Item>
           </Descriptions>

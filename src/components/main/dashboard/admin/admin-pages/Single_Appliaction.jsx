@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../../Reg_Success";
 import API_ENDPOINTS from "../../../../../Endpoints/environment";
-import logo from '../../../../../assets/logo2.png';
+import logo from '../../../../../assets/logo.png';
 import { BookFilled, CheckCircleFilled, CloseCircleFilled, EyeFilled } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -426,7 +426,7 @@ const Single_Application = () => {
               }}
             >
               <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} onClick={() => view('olevel')} icon={<EyeFilled />}>View SSCE </Button>
-              <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} onClick={() => view('nin')} icon={<EyeFilled />}> View NIN Slip </Button>
+              <Button ghost type="primary" className=" btn-block outline " style={{ marginBottom: '5%' }} onClick={() => view('nin')} icon={<EyeFilled />}> View additional SSCE </Button>
             </ConfigProvider>
           </Col>
 

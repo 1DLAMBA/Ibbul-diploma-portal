@@ -26,7 +26,7 @@ import {
 import axios from 'axios';
 import API_ENDPOINTS from '../../../../Endpoints/environment';
 import './exam_card.css';
-import logo from '../../../../assets/logo2.png';
+import logo from '../../../../assets/logo.png';
 
 const { Title, Text } = Typography;
 
@@ -150,7 +150,7 @@ const ExamCard = () => {
       <div className="exam-card">
         <div className="exam-card-header">
           <img src={logo} alt="School Logo" className="school-logo" />
-          <Title level={2} className="school-name">College of Education</Title>
+          <Title level={2} className="school-name">IBBU Diploma Program</Title>
           <Title level={3}>Examination Card</Title>
         </div>
 

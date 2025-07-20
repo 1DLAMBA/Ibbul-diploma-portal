@@ -35,7 +35,7 @@
         width: 100%;
         /* max-width: 600px; */
         margin: auto;
-        height: 20vh;
+        height: 22vh;
         text-align: center;
         font-family: Arial, sans-serif;
         color: #028f64;
@@ -133,6 +133,12 @@
     font-size: 1em;
     color: #555;
   }
+
+  .info-hold{
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
   
   /* Button styling */
   .button-group {

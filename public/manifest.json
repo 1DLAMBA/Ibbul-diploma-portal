@@ -1,11 +1,12 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "IBBU Web App",
+  "name": "IBBU Diploma Web App",
+  "description": "A web application for managing IBBU Diploma programs, courses, and student information.",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "logo2.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
       "src": "logo192.png",

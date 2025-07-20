@@ -2,7 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 
 import coverPhoto from '../../../../assets/backgrround.jpg';
 import { BarsOutlined, PhoneOutlined, MailOutlined, UserOutlined, BookFilled, DashboardOutlined, TeamOutlined, CheckCircleOutlined, FileTextOutlined } from '@ant-design/icons';
-import logo from '../../../../assets/logo2.png';
+import logo from '../../../../assets/logo.png';
 import profilePic from '../../../../assets/pro-pic.png';
 import { PaystackButton } from "react-paystack";
 import { Routes, useNavigate } from 'react-router-dom';
@@ -142,7 +142,7 @@ const Admin_Panel = () => {
                 margin: 0,
                 fontSize: '1.5rem',
                 fontWeight: '600'
-              }}>COLLEGE OF EDUCATION</h2>
+              }}>IBBU Diploma Program</h2>
             </div>
 
             <Popover 

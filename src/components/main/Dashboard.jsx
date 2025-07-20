@@ -8,9 +8,11 @@ import {
   LogoutOutlined,
   HeatMapOutlined,
   EnvironmentFilled,
-  MenuOutlined
+  MenuOutlined,
+  PhoneFilled,
+  MailFilled
 } from '@ant-design/icons';
-import logo from '../../assets/logo2.png';
+import logo from '../../assets/logo.png';
 import profilePic from '../../assets/pro-pic.png';
 import { PaystackButton } from "react-paystack";
 import { Routes, useNavigate } from 'react-router-dom';
@@ -105,7 +107,7 @@ const Dashboard = () => {
     >
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button
-          block 
+          block
           type="text"
           onClick={routeBio}
           style={{
@@ -191,7 +193,7 @@ const Dashboard = () => {
             padding: '8px 12px',
             height: 'auto'
           }}
-        > 
+        >
           <FileTextOutlined style={{ marginRight: '8px' }} /> Exam Card
         </Button>
 
@@ -222,52 +224,52 @@ const Dashboard = () => {
       <div className="dashboard-container">
         <div className="head">
 
-          <img src={logo} alt="User"   style={{ marginLeft: '10%' }} />
+          <img src={logo} alt="User" style={{ marginLeft: '10%' }} />
 
           <ConfigProvider
-      theme={{
-        token: {
-          // Modern color scheme
-          colorPrimary: '#028f64',
-          colorBgContainer: '#ffffff',
-          
-          // Refined radius and spacing
-          borderRadius: 8,
-          margin: 16,
-          
-          // Adding box shadow for depth
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-        },
-      }}
-    >
-      <Popover
-        content={content}
-        trigger="click"
-        placement="bottomRight"
-        overlayStyle={{ 
-          width: '220px',
-          borderRadius: '12px',
-        }}
-      >
-        <Button 
-          type="primary"
-          shape="circle"
-          size="large"
-          icon={<MenuOutlined />}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: '48px',
-            height: '48px',
-            boxShadow: '0 4px 12px rgba(163, 197, 84, 0.41)',
-            transition: 'all 0.3s ease',
-            marginRight: '10%'
-          }}
-          className="hover:shadow-lg"
-        />
-      </Popover>
-    </ConfigProvider>
+            theme={{
+              token: {
+                // Modern color scheme
+                colorPrimary: '#028f64',
+                colorBgContainer: '#ffffff',
+
+                // Refined radius and spacing
+                borderRadius: 8,
+                margin: 16,
+
+                // Adding box shadow for depth
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+              },
+            }}
+          >
+            <Popover
+              content={content}
+              trigger="click"
+              placement="bottomRight"
+              overlayStyle={{
+                width: '220px',
+                borderRadius: '12px',
+              }}
+            >
+              <Button
+                type="primary"
+                shape="circle"
+                size="large"
+                icon={<MenuOutlined />}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '48px',
+                  height: '48px',
+                  boxShadow: '0 4px 12px rgba(163, 197, 84, 0.41)',
+                  transition: 'all 0.3s ease',
+                  marginRight: '10%'
+                }}
+                className="hover:shadow-lg"
+              />
+            </Popover>
+          </ConfigProvider>
 
         </div>
 
@@ -284,7 +286,7 @@ const Dashboard = () => {
             src={application?.passport ? `${API_ENDPOINTS.API_BASE_URL}/file/get/${application.passport}` : undefined}
             icon={!application?.passport && <UserOutlined style={{ fontSize: '70px' }} />}
             className="profile-pic"
-            style={{ backgroundColor: '#028f64' }}
+            style={{ backgroundColor: '#d6e5da' }}
           />
 
           {loader ? (<>
@@ -331,16 +333,80 @@ const Dashboard = () => {
                 <div style={{ marginRight: '20px' }}>
                   <h2 className="user-name">{application?.surname} {application?.other_names} </h2>
 
-                  <p className="user-info">{<BookFilled />}{application?.matric_number}</p>
-                  <p className="user-info">{<BookTwoTone />}{application?.course}</p>
+                  <p className="user-info"><span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: '#d9f7be', // light green
+                    border: '1px solid #389e0d', // dark green outline
+                    marginRight: '8px'
+                  }}>
+                    <BookFilled style={{
+                      color: '#389e0d', // dark green icon
+                      fontSize: '14px'
+                    }} />
+                  </span>{application?.matric_number}</p>
 
+                </div>
+                <div>
+
+                  <p className="user-info"><span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: '#d9f7be', // light green
+                    border: '1px solid #389e0d', // dark green outline
+                    marginRight: '8px'
+                  }}>
+                    <PhoneFilled style={{
+                      color: '#028f64', // dark green icon
+                      fontSize: '14px'
+                    }} />
+                  </span> {application.phone_number}</p>
+
+                  <p className="user-info"><span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: '#d9f7be', // light green
+                    border: '1px solid #028f64', // dark green outline
+                    marginRight: '8px'
+                  }}>
+                    <MailFilled style={{
+                      color: '#028f64', // dark green icon
+                      fontSize: '14px'
+                    }} />
+                  </span> {application.email}</p>
                 </div>
 
                 <div style={{}}>
-                  <p className="user-info"><PhoneOutlined /> {application.phone_number}</p>
+                <p className="user-info"><span style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '24px',
+                    height: '24px',
+                    borderRadius: '50%',
+                    backgroundColor: '#d9f7be', // light green
+                    border: '1px solid #028f64', // dark green outline
+                    marginRight: '8px'
+                  }}>
+                    <BookOutlined style={{
+                      color: '#028f64', // dark green icon
+                      fontSize: '14px'
+                    }} />
+                  </span>{application?.course}</p>
 
-                  <p className="user-info"><MailOutlined /> {application.email}</p>
-                  <Tag  color="cyan" className="user-info" style={{padding:'2%'}}><EnvironmentFilled /> {application.desired_study_cent} study center</Tag>
+                  <Tag className="user-info" style={{ padding: '2%', color: '#028f64' }}><EnvironmentFilled /> {application.desired_study_cent} study center</Tag>
                 </div>
               </div></>) : (<>
                 <div >

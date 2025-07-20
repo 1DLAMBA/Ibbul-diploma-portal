@@ -189,7 +189,7 @@ html, body {
     color: white;
 }
 .form-logo {
-    width: 100px;
+    width: 70px;
 }
 .form-title {
     color: #028f64;
@@ -206,7 +206,7 @@ html, body {
 
 .choice{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
 }
 .choice-sub{
@@ -402,6 +402,7 @@ html, body {
     color: white !important;
     height: 36px;
     padding: 0 16px;
+    width: 100%;
 }
 
 .btn-green:hover {
@@ -492,5 +493,38 @@ html, body {
 
     .subtitle-text {
         font-size: 14px;
+    }
+}
+
+.agent-button {
+    background-color: #028f64;
+    border-color: #028f64;
+    color: white;
+    height: 36px;
+}
+
+.agent-button:hover {
+    background-color: #026d50 !important;
+    border-color: #026d50 !important;
+    color: white !important;
+}
+
+/* Agent Authentication Responsive Styles */
+@media only screen and (max-width: 480px) {
+    .application-card .card-content {
+        padding: 12px !important;
+    }
+    
+    .application-card .card-content .ant-card {
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+    
+    .application-card .card-header .logo {
+        width: 50px !important;
+    }
+    
+    .application-card .card-header h3 {
+        font-size: 16px !important;
     }
 }
