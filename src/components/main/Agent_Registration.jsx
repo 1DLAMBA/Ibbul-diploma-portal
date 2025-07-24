@@ -31,10 +31,13 @@ const newSchoolsData = [
   "Accounting",
   "Business Administration",
   "Public Administration",
-  "computer Science",
+  "Computer Science",
   "Science Laboratory Technology",
   "Library and Information Science",
-  "security and intelligence Studies",
+  "Criminology and intelligence Studies",
+  "Media and Communication Studies",
+  "Transport Management and Operations",
+  "Social/Medical works and Rehabilitation Studies",
 ]
 
 const AgentRegistration = () => {

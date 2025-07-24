@@ -89,10 +89,13 @@ const newSchoolsData = [
   "Accounting",
   "Business Administration",
   "Public Administration",
-  "computer Science",
+  "Computer Science",
   "Science Laboratory Technology",
   "Library and Information Science",
-  "security and intelligence Studies",
+  "Criminology and intelligence Studies",
+  "Media and Communication Studies",
+  "Transport Management and Operations",
+  "Social/Medical works and Rehabilitation Studies",
 ]
 
 const { Title, Text } = Typography;
@@ -113,7 +116,7 @@ const Registration = () => {
   const [thirdStep, setThirdStep] = useState(null);
   const { token } = theme.useToken();
   const navigate = useNavigate();
-  const amount = 400000;
+  const amount = 300000;
   const [email, setEmail] = useState(firstStep.phone_number);
   const [current, setCurrent] = useState(0);
   const [uploadedOl1, setUploadedAL1] = useState('')
@@ -295,10 +298,8 @@ const Registration = () => {
     //   subaccounts: [
     //     // DANIEL ALAMBA
     //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
-    //     // COE ACCOUNT
-    //     { subaccount: "ACCT_aan2ehxiej239du", share: 325000 },
-
-    //     // { subaccount: "ACCT_32iz48sbi1fshex", share: 50000 },
+    //     // IBB ACCOUNT
+    //     { subaccount: "ACCT_7nvmt5vxz131xoy", share: 225000 },
     //   ]
     // },
     publicKey,
@@ -1381,7 +1382,7 @@ const Registration = () => {
                     <div style={{ margin: "0.5rem 0" }}>
                       <Text type="warning"><WarningOutlined /> Please Ensure to review your submissions before proceeding to pay</Text><br />
                       <Text strong style={{ fontSize: "18px", color: "#028f64" }}>
-                        Fee Amount: ₦4,000
+                        Fee Amount: ₦3,000
                       </Text>
                     </div>
 
