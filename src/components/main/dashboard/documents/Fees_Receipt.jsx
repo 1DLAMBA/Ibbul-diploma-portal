@@ -204,12 +204,12 @@ const Fees_Receipt = () => {
                                     {application.has_paid == 1 && application.course_paid == 1 ? (<>
                                         40,0000
                                     </>
-                                    ) : (<> {(application.has_paid == 1 && application.course_paid == 0) ? (<>24,000.00</>) : (<>
+                                    ) : (<> {(application.has_paid == 1 && application.course_paid == 0) ? (<>{application.amount.toLocaleString() }</>) : (<>
                                         <div style={{ color: 'red' }}>NOT PAID</div></>)}
                                     </>)}
                                 </td>
                                 <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>{new Date(application.course_fee_reference).toLocaleDateString()}</td>
-                                <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>{application.couse_fee_date || 'N/A'}</td>
+                                <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>{application.course_fee_date || 'N/A'}</td>
                             </tr>
                         </tbody>
                     </table>

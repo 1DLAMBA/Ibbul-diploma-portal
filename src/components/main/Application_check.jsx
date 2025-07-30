@@ -16,8 +16,8 @@ const ApplicationCheck = () => {
   const [applicationNumber, setApplicationNumber] = useState('');
   const navigate = useNavigate();
   const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
-  const amount = 300000;
   const [email, setEmail] = useState("");
+  const amount = 300000;
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
