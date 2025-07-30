@@ -10,14 +10,16 @@ import {
   EnvironmentFilled,
   MenuOutlined,
   PhoneFilled,
-  MailFilled
+  MailFilled,
+  EditOutlined,
+  EditFilled
 } from '@ant-design/icons';
 import logo from '../../assets/logo.png';
 import profilePic from '../../assets/pro-pic.png';
 import { PaystackButton } from "react-paystack";
 import { Routes, useNavigate } from 'react-router-dom';
 import { Outlet, useParams } from 'react-router-dom';
-import { Button, Popover, Skeleton, Space, ConfigProvider, Avatar, Flex, Tag } from 'antd';
+import { Button, Upload, message, Popover, Skeleton, Space, ConfigProvider, Avatar, Flex, Tag, Tooltip } from 'antd';
 import axios from 'axios';
 import BioData from './dashboard/Bio_data';
 import API_ENDPOINTS from '../../Endpoints/environment';
@@ -30,7 +32,14 @@ const Dashboard = () => {
   const [user, setUser] = useState('' || null);
   const [application, setApplication] = useState('');
   const userId = localStorage.getItem('id')
+  const [uploadedOl1, setUploadedAL1] = useState('')
   const [loader, setLoader] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [passport, setPassport] = useState('')
+  const [imageUrl, setImageUrl] = useState(null);
+  
+  
+  
 
 
   function routeBio() {
@@ -58,38 +67,102 @@ const Dashboard = () => {
   }
 
 
-  useEffect(() => {
+  // console.log('check')
+  const fetchUser = async () => {
     // console.log('check')
-    const fetchUser = async () => {
-      // console.log('check')
-      try {
-        const response = await axios.get(`${API_ENDPOINTS.PERSONAL_DETAILS}/${id}`);
-        const responseBio = await axios.get(`${API_ENDPOINTS.BIO_REGISTRATION}/${id}`);
-        setApplication(response.data); // Assuming the API returns user data in `response.data`
-        // const responseBio = await axios.get(`http://127.0.0.1:8000/api/bio-data/${id}`);
-        // if(responseBio){
-        //   setUser(responseBio.data.data[0])
+    try {
+      const response = await axios.get(`${API_ENDPOINTS.PERSONAL_DETAILS}/${id}`);
+      const responseBio = await axios.get(`${API_ENDPOINTS.BIO_REGISTRATION}/${id}`);
+      setApplication(response.data); // Assuming the API returns user data in `response.data`
+      // const responseBio = await axios.get(`http://127.0.0.1:8000/api/bio-data/${id}`);
+      // if(responseBio){
+      //   setUser(responseBio.data.data[0])
 
-        //   console.log(responseBio.data.data);
-        // }
-        setUser(responseBio.data)
-        if (!response.data.matric_number) {
-          navigate('/');
+      //   console.log(responseBio.data.data);
+      // }
+      setUser(responseBio.data)
+      if (!response.data.matric_number) {
+        navigate('/');
 
-        }
-
-
-        console.log('Data', response.data.data);
-        setLoader(false);
-
-      } catch (error) {
-        console.error("Error fetching user data:", error);
       }
-    };
+
+
+      console.log('Data', response.data.data);
+      setLoader(false);
+
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
 
     fetchUser(); // Call the async function to fetch data
 
   }, []); // Only re-run if `userId` changes
+
+
+  // PASPORT UPLOAD
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG files!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must be smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  };
+
+  const handleUploadChange = (info, setUploadedState, type) => {
+    const { status } = info.file;
+    if (status === 'uploading') {
+      setUploading(true);
+      message.loading('Uploading passport photo...', 0);
+    } else if (status === 'done') {
+      setUploading(false);
+      message.destroy(); // Clear the loading message
+      message.success(`${info.file.name} file uploaded successfully.`);
+      const reader = new FileReader();
+
+      const fileName = info.file.response.data;
+      if (type === 'passport') {
+        setPassport(fileName)
+        console.log(info)
+        setImageUrl(`${API_ENDPOINTS.IMAGE}/${info.file.response.data}`);
+        const updatePassport = async () => {
+          try {
+            const response = await axios.put(`${API_ENDPOINTS.PERSONAL_DETAILS}/${id}`, {
+              passport: fileName
+            });
+            console.log('Passport updated successfully:', response.data);
+          } catch (error) {
+            console.error('Error updating passport:', error);
+          }
+        }
+        updatePassport();
+      }
+      setLoader(true);
+      fetchUser(); 
+    } else if (status === 'error') {
+      setUploading(false);
+      message.destroy(); // Clear the loading message
+      message.error(`${info.file.name} file upload failed.`);
+    }
+  };
+
+  const props = (setUploadedState, type) => ({
+    name: 'file',
+    multiple: false,
+    action: `${API_ENDPOINTS.UPLOAD}`,
+    onChange(info) {
+      console.log('asa')
+      handleUploadChange(info, setUploadedState, type);
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  });
 
 
 
@@ -280,14 +353,32 @@ const Dashboard = () => {
       </div>
       <div className='content'>
         <div className="user-card">
+          <Flex>
 
-          <Avatar
-            size={140}
-            src={application?.passport ? `${API_ENDPOINTS.API_BASE_URL}/file/get/${application.passport}` : undefined}
-            icon={!application?.passport && <UserOutlined style={{ fontSize: '70px' }} />}
-            className="profile-pic"
-            style={{ backgroundColor: '#d6e5da' }}
-          />
+            <Avatar
+              size={140}
+              src={application?.passport ? `${API_ENDPOINTS.API_BASE_URL}/file/get/${application.passport}` : undefined}
+              icon={!application?.passport && <UserOutlined style={{ fontSize: '70px' }} />}
+              className="profile-pic"
+              style={{ backgroundColor: '#d6e5da' }}
+            />
+            <Upload
+              name="passport"
+              listType="picture"
+              showUploadList={false}
+              beforeUpload={beforeUpload}
+              {...props(setUploadedAL1, 'passport')}
+              accept="image/*"
+            >
+
+
+              <Tooltip title="Change Passport">
+                <Button type="primary" shape="circle"
+                  style={{ backgroundColor: '#d6e5da', border: '1px solid green' }}
+                  icon={<EditFilled style={{ color: 'green' }} />} />
+              </Tooltip>
+            </Upload>
+          </Flex>
 
           {loader ? (<>
 
@@ -389,7 +480,7 @@ const Dashboard = () => {
                 </div>
 
                 <div style={{}}>
-                <p className="user-info"><span style={{
+                  <p className="user-info"><span style={{
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',

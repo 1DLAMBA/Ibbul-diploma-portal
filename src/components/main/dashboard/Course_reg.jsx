@@ -42,8 +42,8 @@ const Course_reg = () => {
   const [spinning, setSpinning] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
-  // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
+  // const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
+  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [applicationNumber, setApplicationNumber] = useState('');
   const amount = 4000000;
   const [availableCourses, setAvailableCourses] = useState([]);
@@ -52,6 +52,7 @@ const Course_reg = () => {
   const [centerAccount, setCenterAccount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [studentType, setStudentType] = useState(null); // New state for student type
 
   const itemLink = [
     {
@@ -103,7 +104,8 @@ const Course_reg = () => {
     amount: customAmount * 100, // Paystack uses amount in kobo (multiply by 100)
     metadata: {
       id: id,
-      pay_type: "complete_school_fees",
+      pay_type: "partial_school_fees",
+      student_type: studentType, // Add student type to metadata
       // regNumber
     },
     publicKey,
@@ -112,8 +114,8 @@ const Course_reg = () => {
     //   subaccounts: [
     //     //Bantigi Oasis
     //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 68500 },
-    //     // COE ACCOUNT
-    //     { subaccount: "ACCT_aan2ehxiej239du", share: 2082500 },
+    //     // IBB ACCOUNT
+    //     { subaccount: "ACCT_7nvmt5vxz131xoy", share: 2082500 },
     //     //CENTER ACCOUNT 
     //     { subaccount: centerAccount, share: 1730000 },
     //   ]
@@ -125,7 +127,7 @@ const Course_reg = () => {
         couse_fee_date: reference.reference,
 
         course_fee_reference: paidOn.toISOString().split('T')[0],
-        course_paid: true,
+        // course_paid: true,
         has_paid: true
 
       };
@@ -156,16 +158,16 @@ const Course_reg = () => {
 
   const showModal = () => {
 
-    if(customAmount < 5000) {
+    if (customAmount < 5000) {
       message.error('Minimum amount is ₦5,000');
       return;
-    } else if(customAmount > 27500) {
+    } else if (customAmount > 27500) {
       message.error('Maximum amount is 27,500');
       return;
 
     }
-    else{
-      
+    else {
+
       form
         .validateFields()
         .then(() => {
@@ -191,7 +193,7 @@ const Course_reg = () => {
     amount: 2750000,
     metadata: {
       id: id,
-      pay_type: "partial_school_fees",
+      pay_type: "complete_school_fees",
       // regNumber
     },
     publicKey,
@@ -201,7 +203,7 @@ const Course_reg = () => {
         // Daniel ALAMBA
         { subaccount: "ACCT_1hli5sgrrcfuas9", share: 70000 },
         //CENTER ACCOUNT 
-        { subaccount: centerAccount, share: 1026000 },
+        { subaccount: "ACCT_7nvmt5vxz131xoy", share: 1026000 },
       ]
     },
     text: "Pay Complete Fees",
@@ -460,7 +462,13 @@ const Course_reg = () => {
 
       handleCenterChange(user.data.desired_study_cent);
       setUser(user.data);
+      const slashCount = (user.data.matric_number.match(/\//g) || []).length;
 
+      if (slashCount > 1) {
+        // It has multiple slashes
+        setStudentType('OldStudent');
+      }
+      
       // Move the center account logic here
       if (user.data.desired_study_cent) {
         const centerAccount = setCenterAccountBySite(user.data.desired_study_cent);
@@ -593,13 +601,13 @@ const Course_reg = () => {
   const onFinish = async (values) => {
     console.log('values', values)
     setCustomAmount(values.amount)
-    
+
   }
 
   return (
 
     <>
-     <Modal
+      <Modal
         title="Confirm Payment"
         visible={isModalVisible}
         onOk={handleOk}
@@ -608,13 +616,13 @@ const Course_reg = () => {
           <Button key="back" onClick={handleCancel}>
             Cancel
           </Button>,
-          <PaystackButton 
-           
+          <PaystackButton
+
             style={{ width: '100%', margin: '1%' }} className='btn btn-green'
             onClick={handleOk}
             {...componentProps}
           />
-       
+
         ]}
       >
         <p>Are you sure you want to pay ₦{customAmount}?</p>
@@ -646,30 +654,30 @@ const Course_reg = () => {
 
                   <Space direction="vertical" size="large">
 
-                  <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
 
-                    <BookOutlined style={{ fontSize: '24px', color: '#000' }} />
-                    <Title level={4} style={{ margin: 0, color: '#000' }}>
-                      Registration Fees payment
+                      <BookOutlined style={{ fontSize: '24px', color: '#000' }} />
+                      <Title level={4} style={{ margin: 0, color: '#000' }}>
+                        Registration Fees payment
                       </Title>
-                  </div>
-                    
+                    </div>
+
                     <Form
                       layout="vertical"
                       onFinish={onFinish}
                       className=""
                     >
-                     
-                    <Form.Item
-                      label="Amount"
-                      name="amount"
-                      rules={[{ required: true, message: 'Please enter the desired amount' }]}
-                    >
-                      <Input placeholder="Enter your desired amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} />
-                    </Form.Item>
-                    <Button style={{ textAlign: 'start' }} block className='btn btn-green' disabled={!customAmount} variant="outlined" onClick={showModal}                    >
-                      Pay Now
-                    </Button>
+
+                      <Form.Item
+                        label="Amount"
+                        name="amount"
+                        rules={[{ required: true, message: 'Please enter the desired amount' }]}
+                      >
+                        <Input placeholder="Enter your desired amount" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} />
+                      </Form.Item>
+                      <Button style={{ textAlign: 'start' }} block className='btn btn-green' disabled={!customAmount} variant="outlined" onClick={showModal}                    >
+                        Pay Now
+                      </Button>
 
 
 
@@ -678,8 +686,8 @@ const Course_reg = () => {
                   <Popover content={content} trigger="click">
 
 
-                    <PaystackButton style={{ textAlign: 'start', width:'100%' }} block className='btn btn-green' {...component60Props} variant="outlined"/>
-                   
+                    <PaystackButton style={{ textAlign: 'start', width: '100%' }} block className='btn btn-green' {...component60Props} variant="outlined" />
+
                   </Popover>
                 </Space>
 

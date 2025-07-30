@@ -24,66 +24,6 @@ const steps = [
   },
 ];
 
-const schoolsData = {
-  "School of Sciences": [
-    "Mathematics / Geography",
-    "Maths / Economics",
-    "Maths / Biology",
-    "Maths / Computer Science",
-    "Maths / Special Education",
-    "Biology / Inter Science",
-    "Integrated Sciences (Double Major)",
-    "Biology / Geography",
-    "PHE (Double Major)",
-    "Biology / Special Education",
-  ],
-  "School of Technical Education": [
-    "Technical Education Double Major",
-    "Electrical / Electronics",
-    "Automobile",
-    "Building",
-    "Wood Work",
-    "Metal Work",
-  ],
-  "School of Arts and Social Sciences": [
-    "Geography / History",
-    "Geography / Economics",
-    "Geography / Social Studies",
-    "History / CRS",
-    "History / Islamic Studies",
-    "Social Studies / Economics",
-    "Social Studies / CRS",
-    "Social Studies / Islamic Studies",
-    "Islamic Studies / Special Education",
-    "Eco / Special Education",
-    "CRS / Special Education",
-    "History / Special Education",
-  ],
-  "School of Education": [
-    "Primary Education Studies (Double Major)",
-    "Early Childhood Care Education (Double Major)",
-  ],
-  "School of Languages": [
-    "English / History",
-    "English / CRS",
-    "English / Arabic",
-    "English / Hausa",
-    "English / Social Studies",
-    "Hausa / Islamic Studies",
-    "Hausa / Arabic",
-    "Hausa / Social Studies",
-    "Arabic / Islamic Studies",
-    "English / Islamic Studies",
-    "Arabic / Social Studies",
-    "English / Special Education",
-    "Hausa / Special Education",
-  ],
-  "School of Vocational Education": [
-    "Agricultural Science Education (Double Major)",
-    "Home Economics (Double Major)",
-    "Business Education (Double Major)",
-  ],
-};
 
 const newSchoolsData = [
   "Accounting",
@@ -102,7 +42,8 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const Registration = () => {
-  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
+  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
+  // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [step, setStep] = useState('step1')
   const [selectedSchool, setSelectedSchool] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -293,15 +234,15 @@ const Registration = () => {
     metadata: {
       phone: firstStep.phone_number,
     },
-    // split: {
-    //   type: "flat",
-    //   subaccounts: [
-    //     // DANIEL ALAMBA
-    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
-    //     // IBB ACCOUNT
-    //     { subaccount: "ACCT_7nvmt5vxz131xoy", share: 225000 },
-    //   ]
-    // },
+    split: {
+      type: "flat",
+      subaccounts: [
+        // DANIEL ALAMBA
+        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
+        // IBB ACCOUNT
+        { subaccount: "ACCT_7nvmt5vxz131xoy", share: 225000 },
+      ]
+    },
     publicKey,
     text: "Pay Now",
     onSuccess: async (reference) => {
