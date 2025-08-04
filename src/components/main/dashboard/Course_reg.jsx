@@ -42,8 +42,8 @@ const Course_reg = () => {
   const [spinning, setSpinning] = useState(false);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  // const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
-  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
+  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
+  // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [applicationNumber, setApplicationNumber] = useState('');
   const amount = 4000000;
   const [availableCourses, setAvailableCourses] = useState([]);
@@ -112,10 +112,10 @@ const Course_reg = () => {
     // split: {
     //   type: "flat",
     //   subaccounts: [
-    //     //Bantigi Oasis
-    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 68500 },
+    //     //Daniel Alamba
+    //     { subaccount: "ACCT_fffpxo69foao9af", share: 68500 },
     //     // IBB ACCOUNT
-    //     { subaccount: "ACCT_7nvmt5vxz131xoy", share: 2082500 },
+    //     { subaccount: "ACCT_a5o66o7ow31o0ij", share: 2082500 },
     //     //CENTER ACCOUNT 
     //     { subaccount: centerAccount, share: 1730000 },
     //   ]

@@ -176,7 +176,7 @@ const Acceptance_Receipt = () => {
                 <Divider />
                 <Paragraph>
                     <Text strong>Student Name:</Text> {application.surname + ' ' + application.other_names}<br/>
-                    <Text strong>Matric Number:</Text> {application.matric_number}<br/>
+                    <Text strong>Application Number:</Text> {application.matric_number}<br/>
                     <Text strong>Department:</Text> {application.course}<br/>
                     <Text strong>Academic Session:</Text> 2024/2025
                 </Paragraph>

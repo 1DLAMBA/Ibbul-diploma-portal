@@ -15,7 +15,8 @@ const { Title, Text } = Typography;
 const ApplicationCheck = () => {
   const [applicationNumber, setApplicationNumber] = useState('');
   const navigate = useNavigate();
-  const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
+  const publicKey = "pk_live_806fdc4bf87823b9ab64534ade626ebbdb846bcb";
+  // const publicKey = "pk_test_72c73ead46e3d01ba421f84953da4203474ecf97";
   const [email, setEmail] = useState("");
   const amount = 300000;
   const [name, setName] = useState("");
@@ -35,8 +36,9 @@ const ApplicationCheck = () => {
     // split: {
     //   type: "flat",
     //   subaccounts: [
-    //     { subaccount: "ACCT_1hli5sgrrcfuas9", share: 41000 },
-    //     { subaccount: "ACCT_aan2ehxiej239du", share: 200000 },
+    //     { subaccount: "ACCT_fffpxo69foao9af", share: 41000 },
+    // IBB Account
+    //     { subaccount: "ACCT_a5o66o7ow31o0ij", share: 200000 },
     //   ]
     // },
     publicKey,

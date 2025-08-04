@@ -814,18 +814,10 @@ export const Student_Stats = () => {
                                 onChange={handleFilterChange}
                                 className="filter-select"
                             >
-                                <Option value="Salka">Salka</Option>
-                                <Option value="Mokwa">Mokwa</Option>
+                                
                                 <Option value="suleja">Suleja</Option>
-                                <Option value="Kagara">Kagara</Option>
-                                <Option value="New Bussa">New Bussa</Option>
-                                <Option value="Gulu">Gulu</Option>
-                                <Option value="Gawu">Gawu</Option>
-                                <Option value="Doko">Doko</Option>
-                                <Option value="Katcha">Katcha</Option>
-                                <Option value="Rijau">Rijau</Option>
-                                <Option value="Kontogora">Kontogora</Option>
-                            </Select>
+                                <Option value="Minna">Minna</Option>
+                              </Select>
                         </div>
 
                         <div className="table-header-right">
