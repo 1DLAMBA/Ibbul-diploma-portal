@@ -1,5 +1,5 @@
 const API_BASE_URL = 'https://coestudycenter.com.ng/ibbul-diploma-backend/public/api';
-// const API_BASE_URL = 'http://127.0.0.1:8000/api';
+// const API_BASE_URL = 'http://127.0.0.1:9000/api';
 
 const API_ENDPOINTS = {
     API_BASE_URL:`${API_BASE_URL}`,
