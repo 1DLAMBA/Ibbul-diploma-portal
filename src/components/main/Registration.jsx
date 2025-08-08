@@ -42,8 +42,8 @@ const { Title, Text } = Typography;
 const { Option } = Select;
 
 const Registration = () => {
-  const publicKey = "pk_live_806fdc4bf87823b9ab64534ade626ebbdb846bcb";
-  // const publicKey = "pk_test_72c73ead46e3d01ba421f84953da4203474ecf97";
+  const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
+  // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [step, setStep] = useState('step1')
   const [selectedSchool, setSelectedSchool] = useState("");
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -238,9 +238,9 @@ const Registration = () => {
       type: "flat",
       subaccounts: [
         // DANIEL ALAMBA
-        { subaccount: "ACCT_fffpxo69foao9af", share: 30000 },
+        { subaccount: "ACCT_1hli5sgrrcfuas9", share: 30000 },
         // IBB ACCOUNT
-        { subaccount: "ACCT_a5o66o7ow31o0ij", share: 225000 },
+        { subaccount: "ACCT_7nvmt5vxz131xoy", share: 225000 },
       ]
     },
     publicKey,
