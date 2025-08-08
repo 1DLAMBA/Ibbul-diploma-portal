@@ -11,7 +11,7 @@ const { Option } = Select;
 const { Title, Text } = Typography;
 const schoolsData = {
     "School of Sciences": [
-        "Mathematics / Geography",
+        "Mathematics / Geography", 
         "Maths / Economics",
         "Maths / Biology",
         "Maths / Computer Science",
