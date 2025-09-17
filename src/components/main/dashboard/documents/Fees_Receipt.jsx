@@ -120,108 +120,107 @@ const Fees_Receipt = () => {
                 </ConfigProvider>
                 <Card
                     ref={letterRef}
-                    className="admission-letter"
+                    className="fees-receipt"
                     style={{
                         width: "210mm",
-                        minHeight: "297mm",
-                        padding: "40px",
+                        minHeight: "auto",
+                        padding: "20px 30px",
                         textAlign: "left",
                         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
                         border: "1px solid #ddd",
-                        margin: "20px auto",
+                        margin: "10px auto",
                         fontFamily: "Arial, sans-serif",
-                        backgroundImage: "url('../../../../assets/logo.png') !important"
+                        lineHeight: '1.3',
+                        fontSize: '12px',
+                        position: 'relative'
                     }}
-                    align="middle" justify="space-around"
                 >
-                    <div style={{ textAlign: "center", marginBottom: 20 }}>
-                        <Row align="middle" justify="space-around">
-                            <Col span={16}>
-                                <Title type="success" level={3} className="text-green-600 m-auto">NIGER STATE IBBU Diploma Program</Title>
-                            </Col>
-
-                        </Row>
-                        <Row className="mt-2" gutter={[0, 4]} justify="space-between" >
-                            <Col style={{ textAlign: "left" }} span={10}>
-                                <Text strong>Provost:</Text> Professor Yakubu M. Auna
-                                <br />
-                                <Text>B. Sc, MSc</Text>
-                                <br />
-                                <Text strong>Registrar:</Text> Haj. Zainab Sidi Aliyu
-
-                            </Col>
+                    <div style={{ textAlign: "left", marginBottom: 10 }}>
+                        <Row gutter={[8, 4]} align="middle">
                             <Col span={4}>
-
-                                <img src={logo} alt="User" style={{ width: '100px' }} />
+                                <img src={logo} alt="University Logo" style={{ width: '60px' }} />
                             </Col>
-
-
-                            <Col style={{ textAlign: "right" }} span={9} className="text-right">
-                                <Text>Private mail bag 39,</Text>
-                                <br />
-                                <Text>Telephone: 080-232060 222205</Text>
-
-                                <br />
-                                <Text>E-mail: coedu@yahoo.com</Text>
-                                <br />
-                                <Text>Minna, Niger State</Text>
+                            <Col span={16} style={{ textAlign: 'center' }}>
+                                <Title level={4} style={{ margin: '0 0 2px 0', fontSize: '16px' }}>IBBUL DIPLOMA PROGRAMME</Title>
+                                <Text style={{ fontSize: '10px' }}>Minna, Niger State</Text>
+                            </Col>
+                            <Col span={4} style={{ textAlign: 'right', fontSize: '11px' }}>
+                                <Text strong>Receipt #: {application.matric_number || 'N/A'}</Text><br />
+                                <Text>Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</Text>
                             </Col>
                         </Row>
-
-
-                        <Row className="mt-4 mb-2">
-                            <Col span={24} className="text-right">
-                                <Text>Date: {new Date(application.created_at).toLocaleDateString()}</Text>
-                            </Col>
-                        </Row>
-
-                        <Divider />
-
-
+                        <Divider style={{ margin: '10px 0' }} />
                     </div>
-                    <Title level={3} style={{ textAlign: "center", color: "#333", fontFamily: 'courier' }}>SCHOOL FEE RECEIPT</Title>
+                    <div style={{ textAlign: 'center', marginBottom: 20 }}>
+                        <Title level={3} style={{ margin: '0 0 5px 0', fontSize: '16px' }}>SCHOOL FEES PAYMENT RECEIPT</Title>
+                        <Divider style={{ margin: '10px 0' }} />
+                        
+                        <Row gutter={[16, 8]} style={{ marginBottom: 15, textAlign: 'left' }}>
+                            <Col span={8}>
+                                <Text strong>Student Name:</Text>
+                            </Col>
+                            <Col span={16}>
+                                <Text>{[application.surname, application.other_names].filter(Boolean).join(' ')}</Text>
+                            </Col>
+                            
+                            <Col span={8}>
+                                <Text strong>Matric Number:</Text>
+                            </Col>
+                            <Col span={16}>
+                                <Text>{application.matric_number || 'N/A'}</Text>
+                            </Col>
+                            
+                            <Col span={8}>
+                                <Text strong>Department:</Text>
+                            </Col>
+                            <Col span={16}>
+                                <Text>{application.course || 'N/A'}</Text>
+                            </Col>
+                            
+                            <Col span={8}>
+                                <Text strong>Academic Session:</Text>
+                            </Col>
+                            <Col span={16}>
+                                <Text>2024/2025</Text>
+                            </Col>
+                        </Row>
+                    </div>
                     <Divider />
-                    <Paragraph>
-                        <Text strong>Student Name:</Text> {application.surname + ' ' + application.other_names}<br />
-                        <Text strong>Matric Number:</Text> {application.matric_number}<br />
-                        <Text strong>Department:</Text> {application.course}<br />
-                        <Text strong>Academic Session:</Text> 2024/2025
-                    </Paragraph>
-                    <Divider />
-                    <table style={{ width: '100%', borderCollapse: 'collapse', margin: '20px 0' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', margin: '10px 0', border: '1px solid #000' }}>
                         <thead>
-                            <tr style={{ backgroundColor: '#f0f0f0' }}>
-                                <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'left' }}>Description</th>
-                                <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'right' }}>Amount (₦)</th>
-                                <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>Date</th>
-                                <th style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>Reference</th>
+                            <tr style={{ backgroundColor: '#f0f0f0', borderBottom: '1px solid #000' }}>
+                                <th style={{ padding: '5px', borderRight: '1px solid #000', textAlign: 'left', fontSize: '11px' }}>DESCRIPTION</th>
+                                <th style={{ padding: '5px', borderRight: '1px solid #000', textAlign: 'right', fontSize: '11px' }}>AMOUNT (₦)</th>
+                                <th style={{ padding: '5px', borderRight: '1px solid #000', textAlign: 'center', fontSize: '11px' }}>DATE</th>
+                                <th style={{ padding: '5px', textAlign: 'center', fontSize: '11px' }}>REFERENCE</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style={{ padding: '8px', border: '1px solid #ddd' }}>School Fee</td>
-                                <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'right' }}>
-                                    {application.has_paid == 1 && application.course_paid == 1 ? (<>
-                                        40,0000
-                                    </>
-                                    ) : (<> {(application.has_paid == 1 && application.course_paid == 0) ? (<>{application.amount.toLocaleString() }</>) : (<>
-                                        <div style={{ color: 'red' }}>NOT PAID</div></>)}
-                                    </>)}
+                                <td style={{ padding: '5px', border: '1px solid #000', fontSize: '11px' }}>School Fee</td>
+                                <td style={{ padding: '5px', border: '1px solid #000', textAlign: 'right', fontSize: '11px' }}>
+                                    {application.has_paid == 1 && application.course_paid == 1 ? '40,000.00' : 
+                                     (application.has_paid == 1 && application.course_paid == 0) ? application.amount?.toLocaleString() || '0.00' : '0.00'}
                                 </td>
-                                <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>{new Date(application.course_fee_reference).toLocaleDateString()}</td>
-                                <td style={{ padding: '8px', border: '1px solid #ddd', textAlign: 'center' }}>{application.course_fee_date || 'N/A'}</td>
+                                <td style={{ padding: '5px', border: '1px solid #000', textAlign: 'center', fontSize: '11px' }}>
+                                    {new Date(application.payment_date || new Date()).toLocaleDateString()}
+                                </td>
+                                <td style={{ padding: '5px', border: '1px solid #000', textAlign: 'center', fontSize: '11px' }}>
+                                    {application.payment_reference || 'N/A'}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                     <Divider />
+                    <div style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <div style={{ display: 'inline-block', textAlign: 'center' }}>
+                            <img src={require('../../../../assets/signature.jpg')} alt="Authorized Signature" style={{ height: '50px', marginBottom: '5px' }} />
+                            <div style={{ height: '1px', width: '200px', borderTop: '1px solid #000', margin: '0 auto 5px' }}></div>
+                            <Text strong>Authorized Signature</Text>
+                        </div>
+                    </div>
+                    <Divider />
                     <Paragraph>
-                        <Text strong>Total Amount Paid:</Text>
-                        ₦{application.has_paid == 1 && application.course_paid == 1 ? (<>
-                            40,0000
-                        </>
-                        ) : (<> {(application.has_paid == 1 && application.course_paid == 0) ? (<>24,000.00</>) : (<>
-                            <div style={{ color: 'red' }}>NOT PAID</div></>)}
-                        </>)}<br />
                         <Text strong>Payment Method:</Text> Online Payment
                     </Paragraph>
                     <Divider />
