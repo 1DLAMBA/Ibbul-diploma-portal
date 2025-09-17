@@ -4,12 +4,12 @@ import logo from '../../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { PaystackButton } from "react-paystack";
 import axios from 'axios';
-import { message, Result, Button, Layout, ConfigProvider, Card, Alert, Modal, Input, Typography, Space, Divider, Row, Col } from "antd";
-import { WarningFilled, UserOutlined, CreditCardFilled, ArrowLeftOutlined, SearchOutlined, CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { message, Button, Card, Alert, Modal, Input, Typography, Divider, Row, Col } from "antd";
+import { UserOutlined, CreditCardFilled, ArrowLeftOutlined, SearchOutlined, CheckCircleOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import API_ENDPOINTS from '../../Endpoints/environment';
 import PaystackVerification from './dashboard/Verify_payment';
 
-const { Content } = Layout;
+
 const { Title, Text } = Typography;
 
 const ApplicationCheck = () => {
@@ -18,13 +18,14 @@ const ApplicationCheck = () => {
   const publicKey = "pk_live_a0e748b1c573eab4ee5c659fe004596ecd25a232";
   // const publicKey = "pk_test_3fbb14acfe497c070f67293c2f7f6bcb1b9228a9";
   const [email, setEmail] = useState("");
-  const amount = 300000;
+  const amount = 300000; // Paystack expects amount in kobo (₦3,000)
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [passkey, setPasskey] = useState("");
   const [view, setView] = useState('form');
-  
+  const [checking, setChecking] = useState(false); // UI loading state for status check
+
   const componentProps = {
     email,
     amount,
@@ -51,24 +52,19 @@ const ApplicationCheck = () => {
         application_date: paidOn.toISOString().split('T')[0],
       };
 
+      // Persist minimal payment context
       localStorage.setItem('UserData', JSON.stringify(formData));
-      localStorage.setItem('app_number', applicationNumber);
+      localStorage.setItem('app_number', applicationNumber?.application_number || applicationNumber?.id || "");
 
       try {
-        window.location.href = await `/dashboard/${applicationNumber.id}/acceptance-receipt`;       
+        message.success("Payment successful. Redirecting to your acceptance receipt...");
+        navigate(`/dashboard/${applicationNumber.id}/acceptance-receipt`);
       } catch (error) {
-        console.error("Error sending user data:", error);
-        alert("An error occurred while processing your payment. Please try again.");
-      } finally {
-        const response = await axios.get(`${API_ENDPOINTS.PERSONAL_DETAILS}/${applicationNumber.id}`);
-        console.log(response);
-        if (response.data) {
-          message.loading("redirecting to fees receipt");
-          window.location.href = await `/dashboard/${applicationNumber.id}/fees-receipt`;
-        }
+        console.error("Error after payment:", error);
+        message.error("Payment processed, but we couldn't redirect automatically. Please use the dashboard.");
       }
     },
-    onClose: () => alert("Wait! Don't leave :("),
+    onClose: () => message.info("Payment was not completed. You can try again when ready."),
   };
   
   const correctPasskey = "coe@admin11";
@@ -96,42 +92,44 @@ const ApplicationCheck = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setChecking(true);
     const hide = message.loading("Checking student details...", 0);
 
     try {
       const response = await axios.post(`${API_ENDPOINTS.STUDENT_CHECK}`, {
-        application_number: applicationNumber,
+        application_number: applicationNumber?.toString().trim(),
       });
 
+      hide();
+      setChecking(false);
+
       if (response.status === 200) {
-        hide();
         if (response.data.matric_number) {
           localStorage.setItem("id", response.data.id);
-          console.log("Student ID:", response);
           message.success("Student found! Redirecting to dashboard...");
           navigate(`/dashboard/${response.data.id}`);
         } else if (response.data.message === "acceptance") {
-          hide();
-          message.success("Student found! Redirecting to Acceptance...");
-          console.log("Student Details:", response);
-          setApplicationNumber(response.data.user)
-          setEmail(response.data.user.email)
+          message.success("Student found! Proceed to pay acceptance fee.");
+          setApplicationNumber(response.data.user);
+          setEmail(response.data.user.email);
           setView("acceptance");
+        } else {
+          message.info("No actionable status returned. Please try again or contact support.");
         }
       } else if (response.status === 425) {
-        hide();
         message.warning("Student admission is pending.");
         setView("pending");
       }
     } catch (error) {
       hide();
+      setChecking(false);
 
       if (error.response) {
         const { status, data } = error.response;
 
         if (status === 404) {
-          message.warning("Student not found. Proceeding to fee payment.");
-        } else if (data.message === "pending") {
+          message.warning("Student not found. Please verify your number.");
+        } else if (data?.message === "pending") {
           message.info("Student admission is pending.");
           setView("pending");
         } else {
@@ -139,7 +137,7 @@ const ApplicationCheck = () => {
           message.error("An unexpected error occurred. Please try again later.");
         }
       } else {
-        console.error("Error checking student details:", error);
+        console.error("Network error checking student details:", error);
         message.error("A network error occurred. Please try again later.");
       }
     }
@@ -263,6 +261,9 @@ const ApplicationCheck = () => {
                         value={applicationNumber}
                         onChange={handleInputChange}
                         placeholder="Enter your application or matric number"
+                        aria-label="Application or Matric Number"
+                        autoComplete="off"
+                        maxLength={30}
                         required
                         style={{
                           borderRadius: '6px',
@@ -271,12 +272,13 @@ const ApplicationCheck = () => {
                         }}
                       />
                     </div>
-                    
-                    <Button 
-                      type="primary" 
-                      htmlType="submit" 
-                      block 
+
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      block
                       size="middle"
+                      loading={checking}
                       style={{
                         background: 'linear-gradient(135deg, #028f64 0%, #00b894 100%)',
                         border: 'none',
@@ -286,7 +288,7 @@ const ApplicationCheck = () => {
                         fontWeight: '500'
                       }}
                     >
-                      Check Status
+                      {checking ? 'Checking...' : 'Check Status'}
                     </Button>
                   </form>
 
@@ -343,9 +345,9 @@ const ApplicationCheck = () => {
                 <div style={{ marginBottom: '12px' }}>
                   <Text strong style={{ display: 'block', marginBottom: '5px', fontSize: '12px' }}>Student Details:</Text>
                   <div style={{ fontSize: '11px', color: '#666' }}>
-                    <div style={{ marginBottom: '2px' }}>Name: {applicationNumber.other_names}</div>
-                    <div style={{ marginBottom: '2px' }}>Application Number: {applicationNumber.application_number}</div>
-                    <div>Email: {applicationNumber.email}</div>
+                    <div style={{ marginBottom: '2px' }}>Name: {applicationNumber?.surname} {applicationNumber?.other_names}</div>
+                    <div style={{ marginBottom: '2px' }}>Application Number: {applicationNumber?.application_number}</div>
+                    <div>Email: {applicationNumber?.email}</div>
                   </div>
                 </div>
               </Card>
@@ -395,7 +397,7 @@ const ApplicationCheck = () => {
                 Admission Status: Pending
               </Title>
               <Text style={{ color: '#666', fontSize: '12px', display: 'block', marginBottom: '15px' }}>
-                We regret to inform you that you have not been offered admission yet. However, keep checking for updates, as statuses may change over time.
+                Your admission is still under review. Please check back later for updates.
               </Text>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
@@ -507,7 +509,7 @@ const ApplicationCheck = () => {
             </Button>
             {view === 'acceptance' && (
               <Button
-                icon={<UserOutlined />}
+                icon={<CreditCardFilled />}
                 onClick={() => setView('verification')}
                 block
                 size="small"
@@ -519,7 +521,7 @@ const ApplicationCheck = () => {
                   color: '#1890ff'
                 }}
               >
-                Payment Verification
+                Verify Payment
               </Button>
             )}
           </div>

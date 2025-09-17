@@ -8,6 +8,7 @@ import axios from "axios";
 import './docstyle.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import logo from '../../../../assets/logo.png';
+import signature from '../../../../assets/signature.jpg';
 
 
 
@@ -116,90 +117,114 @@ const Admission_Letter = () => {
                     className="admission-letter"
                     style={{
                         width: "210mm",
-                        minHeight: "297mm",
-                        padding: "40px",
+                        minHeight: "auto",
+                        padding: "20px 30px",
                         textAlign: "left",
                         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
                         border: "1px solid #ddd",
-                        margin: "20px auto",
+                        margin: "10px auto",
                         fontFamily: "Arial, sans-serif",
-                        backgroundImage: "url('../../../../assets/logo.png') !important"
+                        lineHeight: '1.3',
+                        fontSize: '12px',
+                        position: 'relative'
                     }}
                     align="middle" justify="space-around"
                 >
-                    <div style={{ textAlign: "center", marginBottom: 20 }}>
-                        <Row align="middle" justify="space-around">
-                            <Col span={16}>
-                                <Title type="success" level={3} className="text-green-600 m-auto">NIGER STATE IBBU Diploma Program</Title>
-                            </Col>
-
-                        </Row>
-                        <Row className="mt-2" gutter={[0, 4]} justify="space-between" >
-                            <Col style={{ textAlign: "left" }} span={10}>
-                                <Text strong>Provost:</Text> Professor Yakubu M. Auna
-                                <br />
-                                <Text>B. Sc, MSc</Text>
-                                <br />
-                                <Text strong>Registrar:</Text> Haj. Zainab Sidi Aliyu
-
-                            </Col>
+                    <div style={{ textAlign: "left", marginBottom: 10 }}>
+                        <Row gutter={[8, 4]} align="middle">
                             <Col span={4}>
-
-                                <img src={logo} alt="User" style={{ width: '100px' }} />
+                                <img src={logo} alt="University Logo" style={{ width: '60px' }} />
                             </Col>
-
-
-                            <Col style={{ textAlign: "right" }} span={9} className="text-right">
-                                <Text>Private mail bag 39,</Text>
-                                <br />
-                                <Text>Telephone: 080-232060 222205</Text>
-
-                                <br />
-                                <Text>E-mail: coedu@yahoo.com</Text>
-                                <br />
-                                <Text>Minna, Niger State</Text>
+                            <Col span={16} style={{ textAlign: 'center' }}>
+                                <Title level={4} style={{ margin: '0 0 2px 0', fontSize: '14px' }}>IBBUL DIPLOMA PROGRAMME</Title>
+                                <Text style={{ fontSize: '10px' }}>Minna, Niger State</Text>
+                            </Col>
+                            <Col span={4} style={{ textAlign: 'right', fontSize: '11px' }}>
+                                <Text strong>Matric: {application.matric_number || 'N/A'}</Text><br />
+                                <Text>Date: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</Text>
+                            </Col>
+                        </Row>
+                        <Row style={{ marginTop: '10px' }}>
+                            <Col span={24}>
+                                <Text strong>{application.surname ? application.surname.toUpperCase() : ''}, {application.other_names ? application.other_names : ''}</Text><br />
+                                <Text>Minna Study Centre</Text>
                             </Col>
                         </Row>
 
+                        <Row className="mt-4">
+                            <Col span={24}>
+                                <Text>Dear Sir/ Madam</Text>
+                                <Title level={4} style={{ textAlign: "center", color: "#333", margin: '10px 0', fontSize: '13px' }}>
+                                    OFFER OF PROVISIONAL ADMISSION INTO DIPLOMA PROGRAMME (2025/2026 ACADEMIC SESSION)
+                                </Title>
+                                <Paragraph style={{ textAlign: 'justify', lineHeight: '1.8' }}>
+                                    Reference to your Application for Admission into this University, after due screening of the information provided, I am pleased to inform you that you have been Offered Provisional Admission to Pursue an Academic Programme leading to the award of <b>{application.course || 'Computer Science'}</b>.
+                                </Paragraph>
 
-                        <Row className="mt-4 mb-2">
-                            <Col span={24} className="text-right">
-                                <Text>Date: {new Date(application.created_at).toLocaleDateString()}</Text>
+                                <Paragraph style={{ marginTop: '20px' }}>
+                                    You are required to present the followings for Registration:
+                                </Paragraph>
+                                <ul style={{ lineHeight: '1.5', margin: '10px 0', paddingLeft: '20px' }}>
+                                    <li>Original Copies of; this Admission Letter</li>
+                                    <li>Certificates of your Claimed Educational Qualifications</li>
+                                    <li>Birth Certificate/Statutory Declaration of Age</li>
+                                    <li>Medical Certificate from Any Government Hospital</li>
+                                    <li>Two Passports</li>
+                                    <li>One rim of A4 Paper</li>
+                                </ul>
+
+                                <Paragraph style={{ marginTop: '20px' }}>
+                                    Please take very Serious Note of the following Conditions which are related to your Admission and Registration:
+                                </Paragraph>
+                                <ol style={{ lineHeight: '1.4', margin: '10px 0', paddingLeft: '20px' }}>
+                                    <li>
+                                        The offer of this Admission is strictly Provisional and may be Revoked if:
+                                        <ol type="a">
+                                            <li>You fail to formally Accept this offer by paying the Acceptance Fee of 3,000.00 and ID Card 2,000.00 Naira) and other charges.</li>
+                                            <li>You are unable to satisfy the Necessary Requirements for Admission and Registration.</li>
+                                            <li>You cannot produce at the time of Registration, the Original Copies of your Certificates and other Credentials.</li>
+                                        </ol>
+                                    </li>
+                                    <li>The Programme is on part-Time basis. Lectures are officially scheduled for Fridays and Saturdays only.</li>
+                                    <li>The duration of your course is Four Semesters.</li>
+                                    <li>The Attached information on Fees Payable is for your Further and Prompt Action.</li>
+                                    <li>If you accept this offer kindly pay the Acceptance Fee within one week of this offer.</li>
+                                    <li>Please note that all payments must be made to the University Specified Account (UBA Bank, a/c No: 1022459672) and that your name and Amount should be Boldly written on the spaces provided for Depositor and Amount Paid on the Teller.</li>
+                                    <li>Payment of all Fees must be made from the date of resumption and not later than the normal Two Weeks scheduled for the Registration.</li>
+                                    <li>Late Registration Attracts Penalties!</li>
+                                    <li>Only those that paid their Correct Fees are allowed to register and only the fully registered Students are allowed into lecture rooms and the use of the University Facilities.</li>
+                                    <li>Fees can be reviewed without prior notice to Students!</li>
+                                </ol>
+
+                                <Paragraph style={{ marginTop: '20px' }}>
+                                    If you accept this offer of Admission, then kindly complete the Acceptance Letter with attached evidence of payment of the Acceptance Fees and submit to the Deputy Director.
+                                </Paragraph>
+
+                                <Paragraph style={{ textAlign: 'center', marginTop: '20px', fontWeight: 'bold' }}>
+                                    Please Accept our Congratulations!
+                                </Paragraph>
+
+                                <div style={{ marginTop: '40px', textAlign: 'right' }}>
+                                    <img 
+                                        src={signature} 
+                                        alt="Signature" 
+                                        style={{ 
+                                            height: '40px', 
+                                            marginBottom: '5px',
+                                            objectFit: 'contain'
+                                        }} 
+                                    />
+                                    <div style={{ borderTop: '1px solid #000', width: '200px', marginLeft: 'auto', marginBottom: '10px' }}></div>
+                                    <Text strong>Dr. Hamzat Aliyu</Text><br />
+                                    <Text>Deputy Director</Text>
+                                </div>
                             </Col>
                         </Row>
-
-                        <Divider />
-
-
                     </div>
-                    <Title level={3} style={{ textAlign: "center", color: "#333" }}>Offer of Provisional Admission for 2024/2025</Title>
-                    <Paragraph>
-                        Hello, <b>{application.surname + ' ' + application.other_names}</b> <br />
-                        After due consideration of your recent application seeking admission into this college,
-                        we are pleased to inform you that you have been offered provisional admission for the academic session of 2024/2025
-                        for Nigeria Certificate in Education(NCE) in the department of <b> {application.course}</b> with Matric Number <b>{application.matric_number}</b>.
-                    </Paragraph>
-                    <Paragraph>You are expected to report to the college with the following documents for registration:</Paragraph>
-                    <ul>
-                        <li>Letter of offer of provisional admission</li>
-                        <li>Original copies of Certificates or Statement of Results</li>
-                        <li>Original Birth Certificate or Declaration of Age</li>
-                        <li>Medical Certificate of Fitness</li>
-                        <li>Proof of State of Origin</li>
-                        <li>Six (6) Passport-size Photographs</li>
-                        <li>Four (4) File Jackets (Available in the College)</li>
-                    </ul>
-                    <Paragraph>Late registration will attract a penalty.</Paragraph>
-                    <Paragraph>
-                        If any false declaration is discovered, the admission will be withdrawn and the student expelled. No change of name is allowed after registration.
-                    </Paragraph>
-                    <Paragraph>All admitted students must pay the required registration fee immediately.</Paragraph>
-                    <Divider />
-                    <Title level={4} style={{ textAlign: "center", color: "#028f64" }}>Congratulations!</Title>
-                    <Paragraph style={{ textAlign: "right" }}><strong>Academic Secretary</strong></Paragraph>
                 </Card>
             </div>
         </>
+
     );
 };
 
